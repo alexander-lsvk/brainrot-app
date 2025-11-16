@@ -1,0 +1,980 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C52A4EBB2EC9E6AA00C5430A /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C52A4EBA2EC9E6AA00C5430A /* NetworkExtension.framework */; };
+		C52A4EC32EC9E6AA00C5430A /* BrainrotVPN.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C52A4EB82EC9E6AA00C5430A /* BrainrotVPN.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C52A4ECA2EC9E74E00C5430A /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EC92EC9E74E00C5430A /* FirebaseAI */; };
+		C52A4ECC2EC9E74E00C5430A /* FirebaseAILogic in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4ECB2EC9E74E00C5430A /* FirebaseAILogic */; };
+		C52A4ECE2EC9E74E00C5430A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4ECD2EC9E74E00C5430A /* FirebaseAnalytics */; };
+		C52A4ED02EC9E74E00C5430A /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4ECF2EC9E74E00C5430A /* FirebaseAnalyticsCore */; };
+		C52A4ED22EC9E74E00C5430A /* FirebaseAnalyticsIdentitySupport in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4ED12EC9E74E00C5430A /* FirebaseAnalyticsIdentitySupport */; };
+		C52A4ED42EC9E74E00C5430A /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4ED32EC9E74E00C5430A /* FirebaseAppCheck */; };
+		C52A4ED62EC9E74E00C5430A /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4ED52EC9E74E00C5430A /* FirebaseAppDistribution-Beta */; };
+		C52A4ED82EC9E74E00C5430A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4ED72EC9E74E00C5430A /* FirebaseAuth */; };
+		C52A4EDA2EC9E74E00C5430A /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4ED92EC9E74E00C5430A /* FirebaseAuthCombine-Community */; };
+		C52A4EDC2EC9E74E00C5430A /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EDB2EC9E74E00C5430A /* FirebaseCore */; };
+		C52A4EDE2EC9E74E00C5430A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EDD2EC9E74E00C5430A /* FirebaseCrashlytics */; };
+		C52A4EE02EC9E74E00C5430A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EDF2EC9E74E00C5430A /* FirebaseDatabase */; };
+		C52A4EE22EC9E74E00C5430A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EE12EC9E74E00C5430A /* FirebaseFirestore */; };
+		C52A4EE42EC9E74E00C5430A /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EE32EC9E74E00C5430A /* FirebaseFirestoreCombine-Community */; };
+		C52A4EE62EC9E74F00C5430A /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EE52EC9E74F00C5430A /* FirebaseFunctions */; };
+		C52A4EE82EC9E74F00C5430A /* FirebaseFunctionsCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EE72EC9E74F00C5430A /* FirebaseFunctionsCombine-Community */; };
+		C52A4EEA2EC9E74F00C5430A /* FirebaseInAppMessaging-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EE92EC9E74F00C5430A /* FirebaseInAppMessaging-Beta */; };
+		C52A4EEC2EC9E74F00C5430A /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EEB2EC9E74F00C5430A /* FirebaseInstallations */; };
+		C52A4EEE2EC9E74F00C5430A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EED2EC9E74F00C5430A /* FirebaseMessaging */; };
+		C52A4EF02EC9E74F00C5430A /* FirebaseMLModelDownloader in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EEF2EC9E74F00C5430A /* FirebaseMLModelDownloader */; };
+		C52A4EF22EC9E74F00C5430A /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EF12EC9E74F00C5430A /* FirebasePerformance */; };
+		C52A4EF42EC9E74F00C5430A /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EF32EC9E74F00C5430A /* FirebaseRemoteConfig */; };
+		C52A4EF62EC9E74F00C5430A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EF52EC9E74F00C5430A /* FirebaseStorage */; };
+		C52A4EF82EC9E74F00C5430A /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EF72EC9E74F00C5430A /* FirebaseStorageCombine-Community */; };
+		C52A4EFA2EC9E76500C5430A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C52A4EF92EC9E76500C5430A /* GoogleService-Info.plist */; };
+		C56491A42ECA140F00B86264 /* WireGuardKit in Frameworks */ = {isa = PBXBuildFile; productRef = C56491A32ECA140F00B86264 /* WireGuardKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C52A4E8B2EC9E18100C5430A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C52A4E722EC9E17F00C5430A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C52A4E792EC9E17F00C5430A;
+			remoteInfo = Brainrot;
+		};
+		C52A4E952EC9E18100C5430A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C52A4E722EC9E17F00C5430A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C52A4E792EC9E17F00C5430A;
+			remoteInfo = Brainrot;
+		};
+		C52A4EC12EC9E6AA00C5430A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C52A4E722EC9E17F00C5430A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C52A4EB72EC9E6AA00C5430A;
+			remoteInfo = BrainrotVPN;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C52A4EC82EC9E6AA00C5430A /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C52A4EC32EC9E6AA00C5430A /* BrainrotVPN.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C52A4E7A2EC9E17F00C5430A /* Brainrot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Brainrot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C52A4E8A2EC9E18100C5430A /* BrainrotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrainrotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C52A4E942EC9E18100C5430A /* BrainrotUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrainrotUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C52A4EB82EC9E6AA00C5430A /* BrainrotVPN.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BrainrotVPN.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C52A4EBA2EC9E6AA00C5430A /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		C52A4EF92EC9E76500C5430A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C52A4EC42EC9E6AA00C5430A /* Exceptions for "BrainrotVPN" folder in "BrainrotVPN" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C52A4EB72EC9E6AA00C5430A /* BrainrotVPN */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C52A4E7C2EC9E17F00C5430A /* Brainrot */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Brainrot;
+			sourceTree = "<group>";
+		};
+		C52A4E8D2EC9E18100C5430A /* BrainrotTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BrainrotTests;
+			sourceTree = "<group>";
+		};
+		C52A4E972EC9E18100C5430A /* BrainrotUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BrainrotUITests;
+			sourceTree = "<group>";
+		};
+		C52A4EBC2EC9E6AA00C5430A /* BrainrotVPN */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C52A4EC42EC9E6AA00C5430A /* Exceptions for "BrainrotVPN" folder in "BrainrotVPN" target */,
+			);
+			path = BrainrotVPN;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C52A4E772EC9E17F00C5430A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C52A4ED62EC9E74E00C5430A /* FirebaseAppDistribution-Beta in Frameworks */,
+				C52A4EE22EC9E74E00C5430A /* FirebaseFirestore in Frameworks */,
+				C52A4EDA2EC9E74E00C5430A /* FirebaseAuthCombine-Community in Frameworks */,
+				C52A4EEC2EC9E74F00C5430A /* FirebaseInstallations in Frameworks */,
+				C52A4ECC2EC9E74E00C5430A /* FirebaseAILogic in Frameworks */,
+				C52A4ED22EC9E74E00C5430A /* FirebaseAnalyticsIdentitySupport in Frameworks */,
+				C52A4EEA2EC9E74F00C5430A /* FirebaseInAppMessaging-Beta in Frameworks */,
+				C52A4EF02EC9E74F00C5430A /* FirebaseMLModelDownloader in Frameworks */,
+				C52A4ECA2EC9E74E00C5430A /* FirebaseAI in Frameworks */,
+				C52A4EEE2EC9E74F00C5430A /* FirebaseMessaging in Frameworks */,
+				C52A4EF82EC9E74F00C5430A /* FirebaseStorageCombine-Community in Frameworks */,
+				C52A4EDE2EC9E74E00C5430A /* FirebaseCrashlytics in Frameworks */,
+				C52A4EF62EC9E74F00C5430A /* FirebaseStorage in Frameworks */,
+				C52A4EF42EC9E74F00C5430A /* FirebaseRemoteConfig in Frameworks */,
+				C52A4EE82EC9E74F00C5430A /* FirebaseFunctionsCombine-Community in Frameworks */,
+				C52A4EE02EC9E74E00C5430A /* FirebaseDatabase in Frameworks */,
+				C52A4ECE2EC9E74E00C5430A /* FirebaseAnalytics in Frameworks */,
+				C52A4EF22EC9E74F00C5430A /* FirebasePerformance in Frameworks */,
+				C52A4EDC2EC9E74E00C5430A /* FirebaseCore in Frameworks */,
+				C52A4ED42EC9E74E00C5430A /* FirebaseAppCheck in Frameworks */,
+				C52A4ED02EC9E74E00C5430A /* FirebaseAnalyticsCore in Frameworks */,
+				C52A4EE62EC9E74F00C5430A /* FirebaseFunctions in Frameworks */,
+				C52A4ED82EC9E74E00C5430A /* FirebaseAuth in Frameworks */,
+				C52A4EE42EC9E74E00C5430A /* FirebaseFirestoreCombine-Community in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C52A4E872EC9E18100C5430A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C52A4E912EC9E18100C5430A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C52A4EB52EC9E6AA00C5430A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C52A4EBB2EC9E6AA00C5430A /* NetworkExtension.framework in Frameworks */,
+				C56491A42ECA140F00B86264 /* WireGuardKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C52A4E712EC9E17F00C5430A = {
+			isa = PBXGroup;
+			children = (
+				C52A4EF92EC9E76500C5430A /* GoogleService-Info.plist */,
+				C52A4E7C2EC9E17F00C5430A /* Brainrot */,
+				C52A4E8D2EC9E18100C5430A /* BrainrotTests */,
+				C52A4E972EC9E18100C5430A /* BrainrotUITests */,
+				C52A4EBC2EC9E6AA00C5430A /* BrainrotVPN */,
+				C52A4EB92EC9E6AA00C5430A /* Frameworks */,
+				C52A4E7B2EC9E17F00C5430A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C52A4E7B2EC9E17F00C5430A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C52A4E7A2EC9E17F00C5430A /* Brainrot.app */,
+				C52A4E8A2EC9E18100C5430A /* BrainrotTests.xctest */,
+				C52A4E942EC9E18100C5430A /* BrainrotUITests.xctest */,
+				C52A4EB82EC9E6AA00C5430A /* BrainrotVPN.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C52A4EB92EC9E6AA00C5430A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C52A4EBA2EC9E6AA00C5430A /* NetworkExtension.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C52A4E792EC9E17F00C5430A /* Brainrot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C52A4E9E2EC9E18100C5430A /* Build configuration list for PBXNativeTarget "Brainrot" */;
+			buildPhases = (
+				C52A4E762EC9E17F00C5430A /* Sources */,
+				C52A4E772EC9E17F00C5430A /* Frameworks */,
+				C52A4E782EC9E17F00C5430A /* Resources */,
+				C52A4EC82EC9E6AA00C5430A /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C52A4EC22EC9E6AA00C5430A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C52A4E7C2EC9E17F00C5430A /* Brainrot */,
+			);
+			name = Brainrot;
+			packageProductDependencies = (
+				C52A4EC92EC9E74E00C5430A /* FirebaseAI */,
+				C52A4ECB2EC9E74E00C5430A /* FirebaseAILogic */,
+				C52A4ECD2EC9E74E00C5430A /* FirebaseAnalytics */,
+				C52A4ECF2EC9E74E00C5430A /* FirebaseAnalyticsCore */,
+				C52A4ED12EC9E74E00C5430A /* FirebaseAnalyticsIdentitySupport */,
+				C52A4ED32EC9E74E00C5430A /* FirebaseAppCheck */,
+				C52A4ED52EC9E74E00C5430A /* FirebaseAppDistribution-Beta */,
+				C52A4ED72EC9E74E00C5430A /* FirebaseAuth */,
+				C52A4ED92EC9E74E00C5430A /* FirebaseAuthCombine-Community */,
+				C52A4EDB2EC9E74E00C5430A /* FirebaseCore */,
+				C52A4EDD2EC9E74E00C5430A /* FirebaseCrashlytics */,
+				C52A4EDF2EC9E74E00C5430A /* FirebaseDatabase */,
+				C52A4EE12EC9E74E00C5430A /* FirebaseFirestore */,
+				C52A4EE32EC9E74E00C5430A /* FirebaseFirestoreCombine-Community */,
+				C52A4EE52EC9E74F00C5430A /* FirebaseFunctions */,
+				C52A4EE72EC9E74F00C5430A /* FirebaseFunctionsCombine-Community */,
+				C52A4EE92EC9E74F00C5430A /* FirebaseInAppMessaging-Beta */,
+				C52A4EEB2EC9E74F00C5430A /* FirebaseInstallations */,
+				C52A4EED2EC9E74F00C5430A /* FirebaseMessaging */,
+				C52A4EEF2EC9E74F00C5430A /* FirebaseMLModelDownloader */,
+				C52A4EF12EC9E74F00C5430A /* FirebasePerformance */,
+				C52A4EF32EC9E74F00C5430A /* FirebaseRemoteConfig */,
+				C52A4EF52EC9E74F00C5430A /* FirebaseStorage */,
+				C52A4EF72EC9E74F00C5430A /* FirebaseStorageCombine-Community */,
+			);
+			productName = Brainrot;
+			productReference = C52A4E7A2EC9E17F00C5430A /* Brainrot.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C52A4E892EC9E18100C5430A /* BrainrotTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C52A4EA12EC9E18100C5430A /* Build configuration list for PBXNativeTarget "BrainrotTests" */;
+			buildPhases = (
+				C52A4E862EC9E18100C5430A /* Sources */,
+				C52A4E872EC9E18100C5430A /* Frameworks */,
+				C52A4E882EC9E18100C5430A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C52A4E8C2EC9E18100C5430A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C52A4E8D2EC9E18100C5430A /* BrainrotTests */,
+			);
+			name = BrainrotTests;
+			packageProductDependencies = (
+			);
+			productName = BrainrotTests;
+			productReference = C52A4E8A2EC9E18100C5430A /* BrainrotTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C52A4E932EC9E18100C5430A /* BrainrotUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C52A4EA42EC9E18100C5430A /* Build configuration list for PBXNativeTarget "BrainrotUITests" */;
+			buildPhases = (
+				C52A4E902EC9E18100C5430A /* Sources */,
+				C52A4E912EC9E18100C5430A /* Frameworks */,
+				C52A4E922EC9E18100C5430A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C52A4E962EC9E18100C5430A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C52A4E972EC9E18100C5430A /* BrainrotUITests */,
+			);
+			name = BrainrotUITests;
+			packageProductDependencies = (
+			);
+			productName = BrainrotUITests;
+			productReference = C52A4E942EC9E18100C5430A /* BrainrotUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		C52A4EB72EC9E6AA00C5430A /* BrainrotVPN */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C52A4EC52EC9E6AA00C5430A /* Build configuration list for PBXNativeTarget "BrainrotVPN" */;
+			buildPhases = (
+				C52A4EB42EC9E6AA00C5430A /* Sources */,
+				C52A4EB52EC9E6AA00C5430A /* Frameworks */,
+				C52A4EB62EC9E6AA00C5430A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C52A4EBC2EC9E6AA00C5430A /* BrainrotVPN */,
+			);
+			name = BrainrotVPN;
+			packageProductDependencies = (
+				C56491A32ECA140F00B86264 /* WireGuardKit */,
+			);
+			productName = BrainrotVPN;
+			productReference = C52A4EB82EC9E6AA00C5430A /* BrainrotVPN.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C52A4E722EC9E17F00C5430A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					C52A4E792EC9E17F00C5430A = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					C52A4E892EC9E18100C5430A = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = C52A4E792EC9E17F00C5430A;
+					};
+					C52A4E932EC9E18100C5430A = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = C52A4E792EC9E17F00C5430A;
+					};
+					C52A4EB72EC9E6AA00C5430A = {
+						CreatedOnToolsVersion = 16.1;
+					};
+				};
+			};
+			buildConfigurationList = C52A4E752EC9E17F00C5430A /* Build configuration list for PBXProject "Brainrot" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C52A4E712EC9E17F00C5430A;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				C564919C2ECA12C700B86264 /* XCRemoteSwiftPackageReference "wireguard-apple" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C52A4E7B2EC9E17F00C5430A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C52A4E792EC9E17F00C5430A /* Brainrot */,
+				C52A4E892EC9E18100C5430A /* BrainrotTests */,
+				C52A4E932EC9E18100C5430A /* BrainrotUITests */,
+				C52A4EB72EC9E6AA00C5430A /* BrainrotVPN */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C52A4E782EC9E17F00C5430A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C52A4EFA2EC9E76500C5430A /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C52A4E882EC9E18100C5430A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C52A4E922EC9E18100C5430A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C52A4EB62EC9E6AA00C5430A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C52A4E762EC9E17F00C5430A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C52A4E862EC9E18100C5430A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C52A4E902EC9E18100C5430A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C52A4EB42EC9E6AA00C5430A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C52A4E8C2EC9E18100C5430A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C52A4E792EC9E17F00C5430A /* Brainrot */;
+			targetProxy = C52A4E8B2EC9E18100C5430A /* PBXContainerItemProxy */;
+		};
+		C52A4E962EC9E18100C5430A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C52A4E792EC9E17F00C5430A /* Brainrot */;
+			targetProxy = C52A4E952EC9E18100C5430A /* PBXContainerItemProxy */;
+		};
+		C52A4EC22EC9E6AA00C5430A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C52A4EB72EC9E6AA00C5430A /* BrainrotVPN */;
+			targetProxy = C52A4EC12EC9E6AA00C5430A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C52A4E9C2EC9E18100C5430A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C52A4E9D2EC9E18100C5430A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C52A4E9F2EC9E18100C5430A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Brainrot/Brainrot.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Brainrot/Preview Content\"";
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.Brainrot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C52A4EA02EC9E18100C5430A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Brainrot/Brainrot.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Brainrot/Preview Content\"";
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.Brainrot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C52A4EA22EC9E18100C5430A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.BrainrotTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Brainrot.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Brainrot";
+			};
+			name = Debug;
+		};
+		C52A4EA32EC9E18100C5430A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.BrainrotTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Brainrot.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Brainrot";
+			};
+			name = Release;
+		};
+		C52A4EA52EC9E18100C5430A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.BrainrotUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Brainrot;
+			};
+			name = Debug;
+		};
+		C52A4EA62EC9E18100C5430A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.BrainrotUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Brainrot;
+			};
+			name = Release;
+		};
+		C52A4EC62EC9E6AA00C5430A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BrainrotVPN/BrainrotVPN.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BrainrotVPN/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BrainrotVPN;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BrainrotVPN",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.Brainrot.BrainrotVPN;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C52A4EC72EC9E6AA00C5430A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BrainrotVPN/BrainrotVPN.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BrainrotVPN/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BrainrotVPN;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BrainrotVPN",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.Brainrot.BrainrotVPN;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C52A4E752EC9E17F00C5430A /* Build configuration list for PBXProject "Brainrot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C52A4E9C2EC9E18100C5430A /* Debug */,
+				C52A4E9D2EC9E18100C5430A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C52A4E9E2EC9E18100C5430A /* Build configuration list for PBXNativeTarget "Brainrot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C52A4E9F2EC9E18100C5430A /* Debug */,
+				C52A4EA02EC9E18100C5430A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C52A4EA12EC9E18100C5430A /* Build configuration list for PBXNativeTarget "BrainrotTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C52A4EA22EC9E18100C5430A /* Debug */,
+				C52A4EA32EC9E18100C5430A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C52A4EA42EC9E18100C5430A /* Build configuration list for PBXNativeTarget "BrainrotUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C52A4EA52EC9E18100C5430A /* Debug */,
+				C52A4EA62EC9E18100C5430A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C52A4EC52EC9E6AA00C5430A /* Build configuration list for PBXNativeTarget "BrainrotVPN" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C52A4EC62EC9E6AA00C5430A /* Debug */,
+				C52A4EC72EC9E6AA00C5430A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.6.0;
+			};
+		};
+		C564919C2ECA12C700B86264 /* XCRemoteSwiftPackageReference "wireguard-apple" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ut360e/wireguard-apple.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C52A4EC92EC9E74E00C5430A /* FirebaseAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAI;
+		};
+		C52A4ECB2EC9E74E00C5430A /* FirebaseAILogic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAILogic;
+		};
+		C52A4ECD2EC9E74E00C5430A /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		C52A4ECF2EC9E74E00C5430A /* FirebaseAnalyticsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsCore;
+		};
+		C52A4ED12EC9E74E00C5430A /* FirebaseAnalyticsIdentitySupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsIdentitySupport;
+		};
+		C52A4ED32EC9E74E00C5430A /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		C52A4ED52EC9E74E00C5430A /* FirebaseAppDistribution-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAppDistribution-Beta";
+		};
+		C52A4ED72EC9E74E00C5430A /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		C52A4ED92EC9E74E00C5430A /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		C52A4EDB2EC9E74E00C5430A /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		C52A4EDD2EC9E74E00C5430A /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		C52A4EDF2EC9E74E00C5430A /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		C52A4EE12EC9E74E00C5430A /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		C52A4EE32EC9E74E00C5430A /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
+		};
+		C52A4EE52EC9E74F00C5430A /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		C52A4EE72EC9E74F00C5430A /* FirebaseFunctionsCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFunctionsCombine-Community";
+		};
+		C52A4EE92EC9E74F00C5430A /* FirebaseInAppMessaging-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseInAppMessaging-Beta";
+		};
+		C52A4EEB2EC9E74F00C5430A /* FirebaseInstallations */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseInstallations;
+		};
+		C52A4EED2EC9E74F00C5430A /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		C52A4EEF2EC9E74F00C5430A /* FirebaseMLModelDownloader */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMLModelDownloader;
+		};
+		C52A4EF12EC9E74F00C5430A /* FirebasePerformance */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebasePerformance;
+		};
+		C52A4EF32EC9E74F00C5430A /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
+		};
+		C52A4EF52EC9E74F00C5430A /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		C52A4EF72EC9E74F00C5430A /* FirebaseStorageCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageCombine-Community";
+		};
+		C56491A32ECA140F00B86264 /* WireGuardKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C564919C2ECA12C700B86264 /* XCRemoteSwiftPackageReference "wireguard-apple" */;
+			productName = WireGuardKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = C52A4E722EC9E17F00C5430A /* Project object */;
+}
