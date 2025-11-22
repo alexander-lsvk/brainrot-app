@@ -15,6 +15,10 @@ extension DeviceActivityReport.Context {
     static let totalActivity = DeviceActivityReport.Context("Total Activity")
 }
 
+extension DeviceActivityName {
+    static let daily = Self("daily")
+}
+
 @MainActor
 class ScreenTimeManager: ObservableObject {
     static let shared = ScreenTimeManager()
@@ -25,10 +29,12 @@ class ScreenTimeManager: ObservableObject {
     @Published var errorMessage: String?
 
     private let center = AuthorizationCenter.shared
+    private let activityCenter = DeviceActivityCenter()
 
     private init() {
         Task {
             await checkAuthorization()
+            await startDailyMonitoring()
         }
     }
 
@@ -48,9 +54,37 @@ class ScreenTimeManager: ObservableObject {
             try await center.requestAuthorization(for: .individual)
             await checkAuthorization()
             print("Authorization status after request: \(center.authorizationStatus)")
+            await startDailyMonitoring()
         } catch {
             errorMessage = "Failed to authorize Screen Time: \(error.localizedDescription)"
             throw error
+        }
+    }
+
+    private func startDailyMonitoring() async {
+        guard isAuthorized else {
+            print("⚠️ Not authorized, skipping monitoring setup")
+            return
+        }
+
+        let schedule = DeviceActivitySchedule(
+            intervalStart: DateComponents(hour: 0, minute: 0),
+            intervalEnd: DateComponents(hour: 23, minute: 59),
+            repeats: true
+        )
+
+        do {
+            try activityCenter.startMonitoring(.daily, during: schedule)
+            await MainActor.run {
+                isMonitoring = true
+            }
+            print("✅ Started daily monitoring")
+        } catch {
+            print("❌ Failed to start monitoring: \(error)")
+            await MainActor.run {
+                isMonitoring = false
+                errorMessage = "Failed to start monitoring: \(error.localizedDescription)"
+            }
         }
     }
 

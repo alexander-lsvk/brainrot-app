@@ -16,33 +16,104 @@ enum Products: String {
 
 struct SubscriptionView: View {
     @Environment(\.dismiss) var dismiss
-    
+
     @State var selectedPlan: Products = .annual
+    @State private var isLoading = false
+    @State private var errorMessage: String?
+    @State private var showError = false
+
+    var onDismiss: () -> Void
     
     var body: some View {
         NavigationView {
             ZStack {
+                VStack {
+                    if UIScreen.main.bounds.height > 700 {
+                        ZStack(alignment: .bottom) {
+                            Image("subscription-bg")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: UIScreen.main.bounds.height / 1.5)
+                                .clipped()
+                                .ignoresSafeArea()
+                                .opacity(0.8)
+
+                            LinearGradient(
+                                colors: [.clear, .white, .white],
+                                startPoint: .top, endPoint: .bottom
+                            )
+                            .frame(height: UIScreen.main.bounds.height / 3)
+                        }
+                        .frame(height: UIScreen.main.bounds.height / 1.5)
+                    }
+
+                    Spacer()
+                }
+                
                 VStack(spacing: 0) {
-                    Image("mascot")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100)
-                    
                     Text("Get Your 15 Years Back With Brainheal")
                         .foregroundStyle(.black)
                         .font(.system(size: 32, weight: .bold, design: .rounded))
                         .padding(.bottom, 4)
                         .multilineTextAlignment(.center)
                         .padding(.top, 32)
+                        .padding(.bottom, 16)
+                        .minimumScaleFactor(0.5)
                     
-                    Text("The only working way to reverse cognitive decline")
-                        .foregroundStyle(.textSecondary)
-                        .multilineTextAlignment(.center)
-                        .font(.system(size: 18, weight: .regular, design: .rounded))
-                        .padding(.top, 16)
+                    VStack(spacing: 8) {
+                        Text("✅ **Unlimited** slowdown sessions")
+                            .foregroundStyle(.textPrimary)
+                            .multilineTextAlignment(.center)
+                            .font(.system(size: 16, weight: .regular, design: .rounded))
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(32)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 32)
+                                    .stroke(
+                                        .textSecondary.opacity(0.2),
+                                        lineWidth: 1
+                                    )
+                            }
+                        
+                        Text("🌎 **Free** personal VPN")
+                            .foregroundStyle(.textPrimary)
+                            .multilineTextAlignment(.center)
+                            .font(.system(size: 16, weight: .regular, design: .rounded))
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(32)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 32)
+                                    .stroke(
+                                        .textSecondary.opacity(0.2),
+                                        lineWidth: 1
+                                    )
+                            }
+                    }
                     
                     Spacer()
                     
+                    Text("Join others **healing** **brainrot**!")
+                        .foregroundStyle(.textPrimary)
+                        .multilineTextAlignment(.center)
+                        .font(.system(size: 16, weight: .regular, design: .rounded))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(32)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 32)
+                                .stroke(
+                                    .textSecondary.opacity(0.2),
+                                    lineWidth: 1
+                                )
+                        }
+                        .padding(.bottom, 24)
+                    
+                    // Annual button
                     Button {
                         selectedPlan = .annual
                     } label: {
@@ -60,9 +131,15 @@ struct SubscriptionView: View {
                                 
                                 Spacer()
                                 
-                                Text("\(annualDailyLocalizedPrice()) / day")
-                                    .foregroundStyle(.textSecondary)
-                                    .font(.system(size: 16, weight: .medium, design: .rounded))
+                                HStack(alignment: .bottom, spacing: 0) {
+                                    Text("\(annualDailyLocalizedPrice())")
+                                        .foregroundStyle(.black)
+                                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                                    
+                                    Text(" / day")
+                                        .foregroundStyle(.textSecondary)
+                                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                                }
                             }
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
@@ -86,6 +163,48 @@ struct SubscriptionView: View {
                     }
                     .padding(.bottom, 8)
                     
+                    // Monthly button
+                    Button {
+                        selectedPlan = .monthly
+                    } label: {
+                        ZStack {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text("Monthly Plan")
+                                        .foregroundStyle(.black)
+                                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                                    
+                                    Text("\(monthlyLocalizedPrice()) / month")
+                                        .foregroundStyle(.textSecondary)
+                                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                                }
+                                
+                                Spacer()
+                                
+                                HStack(alignment: .bottom, spacing: 0) {
+                                    Text("\(monthlyDailyLocalizedPrice())")
+                                        .foregroundStyle(.black)
+                                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                                    
+                                    Text(" / day")
+                                        .foregroundStyle(.textSecondary)
+                                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                                }
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                        }
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(
+                                    selectedPlan == .monthly ? .green : .textSecondary.opacity(0.1),
+                                    lineWidth: selectedPlan == .monthly ? 3 : 2
+                                )
+                        }
+                    }
+                    .padding(.bottom, 8)
+                    
+                    // Weekly button
                     Button {
                         selectedPlan = .weekly
                     } label: {
@@ -103,9 +222,15 @@ struct SubscriptionView: View {
                                 
                                 Spacer()
                                 
-                                Text("\(weeklyDailyLocalizedPrice()) / day")
-                                    .foregroundStyle(.textSecondary)
-                                    .font(.system(size: 16, weight: .medium, design: .rounded))
+                                HStack(alignment: .bottom, spacing: 0) {
+                                    Text("\(weeklyDailyLocalizedPrice())")
+                                        .foregroundStyle(.black)
+                                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                                    
+                                    Text(" / day")
+                                        .foregroundStyle(.textSecondary)
+                                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                                }
                             }
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
@@ -125,9 +250,15 @@ struct SubscriptionView: View {
                             await purchase()
                         }
                     } label: {
-                        Text("Continue")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 20, weight: .semibold, design: .rounded))
+                        if isLoading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .scaleEffect(1.2)
+                        } else {
+                            Text("Continue")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 20, weight: .semibold, design: .rounded))
+                        }
                     }
                     .buttonStyle(
                         PressableButtonStyle(
@@ -137,6 +268,7 @@ struct SubscriptionView: View {
                         )
                     )
                     .frame(height: 60)
+                    .disabled(isLoading)
                     
                     HStack(spacing: 32) {
                         Button {
@@ -171,6 +303,8 @@ struct SubscriptionView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+                        onDismiss()
+                        dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 24, weight: .bold, design: .rounded))
@@ -178,23 +312,42 @@ struct SubscriptionView: View {
                     }
                 }
             }
+            .alert("Error", isPresented: $showError) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(errorMessage ?? "An error occurred")
+            }
+            .toolbarBackground(.hidden, for: .navigationBar)
         }
     }
-    
+
     func purchase() async {
+        isLoading = true
+        errorMessage = nil
+
         guard let product = ProductsService.shared.products.first(where: { $0.productIdentifier == selectedPlan.rawValue }) else {
+            isLoading = false
+            errorMessage = "Product not found"
+            showError = true
             return
         }
+
         do {
             let result = try await Purchases.shared.purchase(product: product)
+            isLoading = false
+
             if result.userCancelled {
                 ProductsService.shared.subscribed = false
                 return
             }
+
             ProductsService.shared.subscribed = true
             dismiss()
         } catch {
+            isLoading = false
             ProductsService.shared.subscribed = false
+            errorMessage = error.localizedDescription
+            showError = true
         }
     }
     
@@ -233,5 +386,5 @@ struct SubscriptionView: View {
 }
 
 #Preview() {
-    SubscriptionView()
+    SubscriptionView() {}
 }

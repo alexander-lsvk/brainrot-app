@@ -29,6 +29,8 @@ struct DashboardView: View {
     @StateObject private var viewModel = DashboardViewModel()
     @StateObject private var screenTimeManager = ScreenTimeManager.shared
     
+    @State private var showSubscriptionView = false
+    
     private var filter: DeviceActivityFilter {
         DeviceActivityFilter(
             segment: .daily(during: Calendar.current.dateInterval(of: .day, for: Date())!),
@@ -36,7 +38,7 @@ struct DashboardView: View {
             devices: .init([.iPhone, .iPad])
         )
     }
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -54,6 +56,7 @@ struct DashboardView: View {
                             // VPN Status Card
                             VPNStatusCard(
                                 isConnected: viewModel.isVPNConnected,
+                                showSubscriptionView: $showSubscriptionView,
                                 onToggle: {
                                     Task {
                                         await viewModel.toggleVPN()
@@ -91,7 +94,7 @@ struct DashboardView: View {
                             
                             // Screen Time Section - Single UI, different data source
                             ScreenTimeSection()
-                                .frame(height: 700)
+                                .frame(height: 650)
                         }
                     }
                     .padding(16)
@@ -104,11 +107,11 @@ struct DashboardView: View {
                     Spacer()
                 }
             }
-            .toolbarBackground(.white, for: .navigationBar)
+            .scrollIndicators(.hidden)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        
+                        showSubscriptionView.toggle()
                     } label: {
                         Text("HEAL ME!")
                             .foregroundStyle(.black)
@@ -118,7 +121,8 @@ struct DashboardView: View {
                         PressableButtonStyle(
                             foregroundColor: .yellow,
                             backgroundColor: .yellow.opacity(0.7),
-                            cornerRadius: 16
+                            cornerRadius: 16,
+                            yOffset: 4
                         )
                     )
                     .frame(width: 100, height: 30)
@@ -128,6 +132,9 @@ struct DashboardView: View {
                 Button("OK", role: .cancel) {}
             } message: {
                 Text(viewModel.errorMessage)
+            }
+            .fullScreenCover(isPresented: $showSubscriptionView) {
+                SubscriptionView() {}
             }
         }
         .task {
@@ -140,47 +147,30 @@ struct DashboardView: View {
 // MARK: - VPN Status Card
 struct VPNStatusCard: View {
     let isConnected: Bool
+    @Binding var showSubscriptionView: Bool
     let onToggle: () -> Void
-    
+
     var body: some View {
         VStack(spacing: 0) {
-            // Connection Status Indicator
-            //            Circle()
-            //                .fill(isConnected ? Color.green : Color.red)
-            //                .frame(width: 80, height: 80)
-            //                .shadow(color: (isConnected ? Color.green : Color.red).opacity(0.5), radius: 20)
-            //                .overlay(
-            //                    Image(systemName: isConnected ? "checkmark.shield.fill" : "xmark.shield.fill")
-            //                        .font(.system(size: 40))
-            //                        .foregroundColor(.white)
-            //                )
-            
-            //            Text(isConnected ? "Connected" : "Disconnected")
-            //                .font(.title2)
-            //                .fontWeight(.bold)
-            
             Image("mascot")
                 .resizable()
-                .frame(width: 200, height: 200)
                 .scaledToFit()
+                .frame(width: 200)
                 .padding(.bottom, 32)
             
-//            DuolingoButton(title: "Start Brain Healing", color: .green)
-//                .padding(.top, 32)
-            
-            Text("Your brain is healing")
+            Text(isConnected ? "Your brain is healing" : "Your brain needs a break")
                 .foregroundStyle(.black)
                 .font(.system(size: 28, weight: .semibold, design: .rounded))
                 .padding(.bottom, 4)
             
-            Text("Doomscrolling is not that easy anymore hehe")
+                 Text(isConnected ? "Doomscrolling is not that easy anymore hehe" : "Let’s make scrolling harder today")
                 .foregroundStyle(.gray)
                 .multilineTextAlignment(.center)
                 .font(.system(size: 18, weight: .regular, design: .rounded))
                 .padding(.bottom, 16)
             
             Button {
-                 onToggle()
+                onToggle()
             } label: {
                 Text(!isConnected ? "Start Brain Healing" : "Back To Rotting")
                     .foregroundStyle(.white)
@@ -224,16 +214,6 @@ struct VPNStatusCard: View {
                     .font(.system(size: 16, weight: .semibold, design: .rounded))
             }
             .padding(.top, 8)
-            
-//            Button(action: onToggle) {
-//                Text(isConnected ? "Back To Brainrot" : "Start Brain Healing")
-//                    .font(.headline)
-//                    .foregroundColor(.white)
-//                    .frame(maxWidth: .infinity)
-//                    .padding()
-//                    .background(isConnected ? Color.red : Color.green)
-//                    .cornerRadius(12)
-//            }
         }
     }
 }
@@ -354,7 +334,7 @@ struct ScreenTimeSection: View {
 #if !targetEnvironment(simulator)
     // DEVICE: Use real Screen Time manager
     @StateObject private var screenTimeManager = ScreenTimeManager.shared
-    
+
     private var filter: DeviceActivityFilter {
         DeviceActivityFilter(
             segment: .daily(during: Calendar.current.dateInterval(of: .day, for: Date())!),
@@ -362,8 +342,9 @@ struct ScreenTimeSection: View {
             devices: .init([.iPhone, .iPad])
         )
     }
+
 #endif
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
 #if targetEnvironment(simulator)
@@ -373,7 +354,7 @@ struct ScreenTimeSection: View {
 #else
             // DEVICE: Show real DeviceActivityReport (authorization is handled in onboarding)
             DeviceActivityReport(.totalActivity, filter: filter)
-                .frame(height: 700)
+                .frame(height: 650)
 #endif
         }
     }
@@ -409,7 +390,7 @@ struct ScreenTimeSection: View {
 // When you edit this, you need to copy the changes to TotalActivityView.swift in BrainrotActivityReport
 struct SharedScreenTimeView: View {
     let activityReport: ActivityReport
-    
+
     // Mock improvement data (will be replaced with real logic later)
     private var averageScreenTime: TimeInterval {
         // Mock: average is 6 hours
@@ -484,16 +465,6 @@ struct SharedScreenTimeView: View {
                 ForEach(activityReport.apps.prefix(10)) { app in
                     VStack(spacing: 0) {
                         HStack(spacing: 12) {
-                            // App Icon
-                            Circle()
-                                .fill(iconColor(for: app.category).opacity(0.2))
-                                .frame(width: 44, height: 44)
-                                .overlay(
-                                    Image(systemName: iconName(for: app.bundleIdentifier))
-                                        .font(.system(size: 20))
-                                        .foregroundColor(iconColor(for: app.category))
-                                )
-                            
                             // App Info
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(app.displayName)
@@ -541,49 +512,6 @@ struct SharedScreenTimeView: View {
                 
             }
             .frame(height: 600)
-        }
-    }
-    
-    private func iconName(for bundleID: String) -> String {
-        switch bundleID.lowercased() {
-        case let id where id.contains("tiktok") || id.contains("musically"):
-            return "music.note"
-        case let id where id.contains("instagram"):
-            return "camera.fill"
-        case let id where id.contains("youtube"):
-            return "play.rectangle.fill"
-        case let id where id.contains("facebook"):
-            return "person.2.fill"
-        case let id where id.contains("twitter") || id.contains("x.com"):
-            return "bird.fill"
-        case let id where id.contains("safari"):
-            return "safari.fill"
-        case let id where id.contains("chrome"):
-            return "globe"
-        case let id where id.contains("whatsapp"):
-            return "message.fill"
-        case let id where id.contains("telegram"):
-            return "paperplane.fill"
-        case let id where id.contains("snapchat"):
-            return "camera.filters"
-        case let id where id.contains("reddit"):
-            return "bubble.left.and.bubble.right.fill"
-        case let id where id.contains("spotify"):
-            return "music.note.list"
-        case let id where id.contains("netflix"):
-            return "tv.fill"
-        case let id where id.contains("mail") || id.contains("gmail"):
-            return "envelope.fill"
-        case let id where id.contains("maps"):
-            return "map.fill"
-        case let id where id.contains("photos"):
-            return "photo.fill"
-        case let id where id.contains("settings"):
-            return "gearshape.fill"
-        case let id where id.contains("app.store") || id.contains("appstore"):
-            return "appstore"
-        default:
-            return "app.fill"
         }
     }
     

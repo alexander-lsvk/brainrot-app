@@ -6,43 +6,45 @@
 //
 
 import DeviceActivity
+import Foundation
 
-// Optionally override any of the functions below.
-// Make sure that your class name matches the NSExtensionPrincipalClass in your Info.plist.
+extension DeviceActivityName {
+    static let daily = Self("daily")
+}
+
 class DeviceActivityMonitorExtension: DeviceActivityMonitor {
     override func intervalDidStart(for activity: DeviceActivityName) {
         super.intervalDidStart(for: activity)
-        
-        // Handle the start of the interval.
+        print("📊 Monitor: Interval started for \(activity)")
     }
-    
+
     override func intervalDidEnd(for activity: DeviceActivityName) {
         super.intervalDidEnd(for: activity)
-        
-        // Handle the end of the interval.
+        print("📊 Monitor: Interval ended for \(activity)")
+
+        // Signal that data collection is complete
+        // The main app will fetch this from the Report extension
+        if let defaults = UserDefaults(suiteName: "group.com.app.Brainrot") {
+            defaults.set(Date(), forKey: "lastDataUpdate")
+            defaults.synchronize()
+            print("✅ Monitor: Updated lastDataUpdate timestamp")
+        }
     }
-    
+
     override func eventDidReachThreshold(_ event: DeviceActivityEvent.Name, activity: DeviceActivityName) {
         super.eventDidReachThreshold(event, activity: activity)
-        
-        // Handle the event reaching its threshold.
+        print("📊 Monitor: Event threshold reached: \(event)")
     }
-    
+
     override func intervalWillStartWarning(for activity: DeviceActivityName) {
         super.intervalWillStartWarning(for: activity)
-        
-        // Handle the warning before the interval starts.
     }
-    
+
     override func intervalWillEndWarning(for activity: DeviceActivityName) {
         super.intervalWillEndWarning(for: activity)
-        
-        // Handle the warning before the interval ends.
     }
-    
+
     override func eventWillReachThresholdWarning(_ event: DeviceActivityEvent.Name, activity: DeviceActivityName) {
         super.eventWillReachThresholdWarning(event, activity: activity)
-        
-        // Handle the warning before the event reaches its threshold.
     }
 }

@@ -68,9 +68,7 @@ struct PressableButtonStyle: ButtonStyle {
     private let backgroundColor: Color
     private let shape: ShapeType
     private var cornerRadius: CGFloat = 0
-    private var yOffset: CGFloat {
-        shape == .rectangle ? 8 : 0
-    }
+    private var yOffset: CGFloat = 0
 
     // MARK: - Initializers
 
@@ -78,22 +76,26 @@ struct PressableButtonStyle: ButtonStyle {
     init(
         foregroundColor: Color,
         backgroundColor: Color,
-        cornerRadius: CGFloat
+        cornerRadius: CGFloat,
+        yOffset: CGFloat = 8
     ) {
         self.foregroundColor = foregroundColor
         self.backgroundColor = backgroundColor
         self.cornerRadius = cornerRadius
         self.shape = .rectangle
+        self.yOffset = yOffset
     }
 
     /// Ellipse / Circle Version
     init(
         foregroundColor: Color,
-        backgroundColor: Color
+        backgroundColor: Color,
+        yOffset: CGFloat = 8
     ) {
         self.foregroundColor = foregroundColor
         self.backgroundColor = backgroundColor
         self.shape = .ellipse
+        self.yOffset = yOffset
     }
 
     // MARK: - Body

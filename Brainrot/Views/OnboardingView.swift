@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct ReviewCard: View {
     let imageName: String
@@ -114,6 +115,8 @@ enum OnboardingStep: CaseIterable {
 }
 
 struct OnboardingView: View {
+    @Environment(\.dismiss) var dismiss
+    
     @StateObject private var screenTimeManager = ScreenTimeManager.shared
 
     @State private var currentStep: OnboardingStep = .welcome
@@ -121,6 +124,8 @@ struct OnboardingView: View {
     @State private var visibleBenefits: Int = 0
     @State private var visibleMessages: Int = 0
     @State private var visibleTrickMessages: Int = 0
+    
+    @State private var showSubscriptionView = false
     
     var body: some View {
         NavigationView {
@@ -172,6 +177,11 @@ struct OnboardingView: View {
                     }
                 }
             }
+            .fullScreenCover(isPresented: $showSubscriptionView) {
+                SubscriptionView() {
+                    dismiss()
+                }
+            }
         }
         .task {
             await screenTimeManager.checkAuthorization()
@@ -192,7 +202,7 @@ struct OnboardingView: View {
                     .foregroundStyle(.black)
                     .font(.system(size: 32, weight: .bold, design: .rounded))
                     .multilineTextAlignment(.center)
-                    .padding(.bottom, 16)
+                    .padding(.vertical, 16)
                 
                 Text("It's time to **finally** regain\ncontrol of your **screen time**")
                     .foregroundStyle(.textSecondary)
@@ -374,7 +384,7 @@ struct OnboardingView: View {
         ("Slow…", false),
         ("Like you're on an island with 1 bar of signal 🌴📶", false),
         ("And something amazing happens", true),
-        ("You get bored. You get irritated. You give up", true),
+        ("You get bored. You give up", true),
         ("🧠 Your brain simply walks away from the trap 😌", true)
     ]
 
@@ -415,14 +425,14 @@ struct OnboardingView: View {
                         .clipShape(Circle())
                         .overlay(Circle().stroke(Color.white, lineWidth: 2))
 
-                    Image("review-1")
+                    Image("review-2")
                         .resizable()
                         .scaledToFill()
                         .frame(width: 50, height: 50)
                         .clipShape(Circle())
                         .overlay(Circle().stroke(Color.white, lineWidth: 2))
 
-                    Image("review-1")
+                    Image("review-3")
                         .resizable()
                         .scaledToFill()
                         .frame(width: 50, height: 50)
@@ -439,17 +449,17 @@ struct OnboardingView: View {
 
                 VStack(spacing: 12) {
                     ReviewCard(
-                        imageName: "review-1",
+                        imageName: "review-4",
                         name: "Sarah M.",
                         rating: 5,
-                        review: "Finally broke my TikTok addiction! I was spending 4+ hours a day scrolling. Now I actually have time for my hobbies again."
+                        review: "The slow loading trick is genius. Instagram became so boring that I just naturally stopped opening it. Best decision ever!"
                     )
 
                     ReviewCard(
-                        imageName: "review-1",
+                        imageName: "review-5",
                         name: "Michael T.",
                         rating: 5,
-                        review: "The slow loading trick is genius. Instagram became so boring that I just naturally stopped opening it. Best decision ever!"
+                        review: "Finally broke my TikTok addiction! I was spending 4+ hours a day scrolling. Now I actually have time for something meaningful."
                     )
                 }
                 .padding(.top, 24)
@@ -474,6 +484,9 @@ struct OnboardingView: View {
             }
         }
         .padding(16)
+        .onAppear {
+            requestAppStoreReview()
+        }
     }
     
     private func connectScreenTime() -> some View {
@@ -502,7 +515,7 @@ struct OnboardingView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 24)
                 
-                Text("Your data is completely private and never leaves your device.")
+                Text("Your data is **completely private** and never leaves your device.")
                     .foregroundStyle(.textSecondary)
                     .font(.system(size: 18, weight: .regular, design: .rounded))
                     .multilineTextAlignment(.center)
@@ -609,7 +622,7 @@ struct OnboardingView: View {
                     .foregroundStyle(.black)
                     .font(.system(size: 28, weight: .bold, design: .rounded))
                     .multilineTextAlignment(.center)
-                    .padding(.bottom, 36)
+                    .padding(.vertical, 36)
                 
                 VStack(alignment: .leading, spacing: 16) {
                     ForEach(Array(benefits.enumerated()), id: \.offset) { index, benefit in
@@ -625,7 +638,7 @@ struct OnboardingView: View {
                 Spacer()
 
                 Button {
-                    currentStep = .welcome
+                    showSubscriptionView.toggle()
                 } label: {
                     Text("Continue")
                         .foregroundStyle(.white)
@@ -661,6 +674,12 @@ struct OnboardingView: View {
                 visibleBenefits = i + 1
                 UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
             }
+        }
+    }
+
+    private func requestAppStoreReview() {
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            SKStoreReviewController.requestReview(in: scene)
         }
     }
 }

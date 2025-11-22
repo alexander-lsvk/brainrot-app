@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		C52A4EBB2EC9E6AA00C5430A /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C52A4EBA2EC9E6AA00C5430A /* NetworkExtension.framework */; };
-		C52A4EC32EC9E6AA00C5430A /* BrainrotVPN.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C52A4EB82EC9E6AA00C5430A /* BrainrotVPN.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C52A4ECA2EC9E74E00C5430A /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EC92EC9E74E00C5430A /* FirebaseAI */; };
 		C52A4ECC2EC9E74E00C5430A /* FirebaseAILogic in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4ECB2EC9E74E00C5430A /* FirebaseAILogic */; };
 		C52A4ECE2EC9E74E00C5430A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4ECD2EC9E74E00C5430A /* FirebaseAnalytics */; };
@@ -34,7 +33,13 @@
 		C52A4EF62EC9E74F00C5430A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EF52EC9E74F00C5430A /* FirebaseStorage */; };
 		C52A4EF82EC9E74F00C5430A /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C52A4EF72EC9E74F00C5430A /* FirebaseStorageCombine-Community */; };
 		C52A4EFA2EC9E76500C5430A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C52A4EF92EC9E76500C5430A /* GoogleService-Info.plist */; };
+		C535AFC92ED17768007B8C9F /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = C535AFC82ED17768007B8C9F /* RevenueCat */; };
+		C535B1102ED206F3007B8C9F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C535B10F2ED206F3007B8C9F /* Kingfisher */; };
+		C535B1142ED2091F007B8C9F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C535B1132ED2091F007B8C9F /* Kingfisher */; };
 		C56491A42ECA140F00B86264 /* WireGuardKit in Frameworks */ = {isa = PBXBuildFile; productRef = C56491A32ECA140F00B86264 /* WireGuardKit */; };
+		C574F98A2ECADB23000B898B /* BrainrotActivityReport.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = C574F97E2ECADB23000B898B /* BrainrotActivityReport.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C574F9962ECADBC4000B898B /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C574F9952ECADBC4000B898B /* DeviceActivity.framework */; };
+		C574F99E2ECADBC4000B898B /* BrainrotActivityMonitor.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C574F9942ECADBC4000B898B /* BrainrotActivityMonitor.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,12 +57,19 @@
 			remoteGlobalIDString = C52A4E792EC9E17F00C5430A;
 			remoteInfo = Brainrot;
 		};
-		C52A4EC12EC9E6AA00C5430A /* PBXContainerItemProxy */ = {
+		C574F9882ECADB23000B898B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C52A4E722EC9E17F00C5430A /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C52A4EB72EC9E6AA00C5430A;
-			remoteInfo = BrainrotVPN;
+			remoteGlobalIDString = C574F97D2ECADB23000B898B;
+			remoteInfo = BrainrotActivityReport;
+		};
+		C574F99C2ECADBC4000B898B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C52A4E722EC9E17F00C5430A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C574F9932ECADBC4000B898B;
+			remoteInfo = BrainrotActivityMonitor;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -68,9 +80,20 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C52A4EC32EC9E6AA00C5430A /* BrainrotVPN.appex in Embed Foundation Extensions */,
+				C574F99E2ECADBC4000B898B /* BrainrotActivityMonitor.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C574F98B2ECADB23000B898B /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+				C574F98A2ECADB23000B898B /* BrainrotActivityReport.appex in Embed ExtensionKit Extensions */,
+			);
+			name = "Embed ExtensionKit Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -82,6 +105,10 @@
 		C52A4EB82EC9E6AA00C5430A /* BrainrotVPN.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BrainrotVPN.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C52A4EBA2EC9E6AA00C5430A /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		C52A4EF92EC9E76500C5430A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C535AEE12ED16ABB007B8C9F /* AppleStoreKitConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppleStoreKitConfiguration.storekit; sourceTree = "<group>"; };
+		C574F97E2ECADB23000B898B /* BrainrotActivityReport.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = BrainrotActivityReport.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C574F9942ECADBC4000B898B /* BrainrotActivityMonitor.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BrainrotActivityMonitor.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C574F9952ECADBC4000B898B /* DeviceActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceActivity.framework; path = System/Library/Frameworks/DeviceActivity.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -92,11 +119,35 @@
 			);
 			target = C52A4EB72EC9E6AA00C5430A /* BrainrotVPN */;
 		};
+		C535AD972ED08DC7007B8C9F /* Exceptions for "Brainrot" folder in "Brainrot" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C52A4E792EC9E17F00C5430A /* Brainrot */;
+		};
+		C574F98E2ECADB23000B898B /* Exceptions for "BrainrotActivityReport" folder in "BrainrotActivityReport" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C574F97D2ECADB23000B898B /* BrainrotActivityReport */;
+		};
+		C574F99F2ECADBC4000B898B /* Exceptions for "BrainrotActivityMonitor" folder in "BrainrotActivityMonitor" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C574F9932ECADBC4000B898B /* BrainrotActivityMonitor */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C52A4E7C2EC9E17F00C5430A /* Brainrot */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C535AD972ED08DC7007B8C9F /* Exceptions for "Brainrot" folder in "Brainrot" target */,
+			);
 			path = Brainrot;
 			sourceTree = "<group>";
 		};
@@ -118,6 +169,37 @@
 			path = BrainrotVPN;
 			sourceTree = "<group>";
 		};
+		C55BA6042ECCDAF800F2265D /* BrainrotPreview */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BrainrotPreview;
+			sourceTree = "<group>";
+		};
+		C55BA6152ECCDAFA00F2265D /* BrainrotPreviewTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BrainrotPreviewTests;
+			sourceTree = "<group>";
+		};
+		C55BA61F2ECCDAFA00F2265D /* BrainrotPreviewUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BrainrotPreviewUITests;
+			sourceTree = "<group>";
+		};
+		C574F97F2ECADB23000B898B /* BrainrotActivityReport */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C574F98E2ECADB23000B898B /* Exceptions for "BrainrotActivityReport" folder in "BrainrotActivityReport" target */,
+			);
+			path = BrainrotActivityReport;
+			sourceTree = "<group>";
+		};
+		C574F9972ECADBC4000B898B /* BrainrotActivityMonitor */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C574F99F2ECADBC4000B898B /* Exceptions for "BrainrotActivityMonitor" folder in "BrainrotActivityMonitor" target */,
+			);
+			path = BrainrotActivityMonitor;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +214,8 @@
 				C52A4ECC2EC9E74E00C5430A /* FirebaseAILogic in Frameworks */,
 				C52A4ED22EC9E74E00C5430A /* FirebaseAnalyticsIdentitySupport in Frameworks */,
 				C52A4EEA2EC9E74F00C5430A /* FirebaseInAppMessaging-Beta in Frameworks */,
+				C535AFC92ED17768007B8C9F /* RevenueCat in Frameworks */,
+				C535B1102ED206F3007B8C9F /* Kingfisher in Frameworks */,
 				C52A4EF02EC9E74F00C5430A /* FirebaseMLModelDownloader in Frameworks */,
 				C52A4ECA2EC9E74E00C5430A /* FirebaseAI in Frameworks */,
 				C52A4EEE2EC9E74F00C5430A /* FirebaseMessaging in Frameworks */,
@@ -175,17 +259,39 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C574F97B2ECADB23000B898B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C535B1142ED2091F007B8C9F /* Kingfisher in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C574F9912ECADBC4000B898B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C574F9962ECADBC4000B898B /* DeviceActivity.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		C52A4E712EC9E17F00C5430A = {
 			isa = PBXGroup;
 			children = (
+				C535AEE12ED16ABB007B8C9F /* AppleStoreKitConfiguration.storekit */,
 				C52A4EF92EC9E76500C5430A /* GoogleService-Info.plist */,
 				C52A4E7C2EC9E17F00C5430A /* Brainrot */,
 				C52A4E8D2EC9E18100C5430A /* BrainrotTests */,
 				C52A4E972EC9E18100C5430A /* BrainrotUITests */,
 				C52A4EBC2EC9E6AA00C5430A /* BrainrotVPN */,
+				C574F97F2ECADB23000B898B /* BrainrotActivityReport */,
+				C574F9972ECADBC4000B898B /* BrainrotActivityMonitor */,
+				C55BA6042ECCDAF800F2265D /* BrainrotPreview */,
+				C55BA6152ECCDAFA00F2265D /* BrainrotPreviewTests */,
+				C55BA61F2ECCDAFA00F2265D /* BrainrotPreviewUITests */,
 				C52A4EB92EC9E6AA00C5430A /* Frameworks */,
 				C52A4E7B2EC9E17F00C5430A /* Products */,
 			);
@@ -198,6 +304,8 @@
 				C52A4E8A2EC9E18100C5430A /* BrainrotTests.xctest */,
 				C52A4E942EC9E18100C5430A /* BrainrotUITests.xctest */,
 				C52A4EB82EC9E6AA00C5430A /* BrainrotVPN.appex */,
+				C574F97E2ECADB23000B898B /* BrainrotActivityReport.appex */,
+				C574F9942ECADBC4000B898B /* BrainrotActivityMonitor.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -206,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				C52A4EBA2EC9E6AA00C5430A /* NetworkExtension.framework */,
+				C574F9952ECADBC4000B898B /* DeviceActivity.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -221,11 +330,13 @@
 				C52A4E772EC9E17F00C5430A /* Frameworks */,
 				C52A4E782EC9E17F00C5430A /* Resources */,
 				C52A4EC82EC9E6AA00C5430A /* Embed Foundation Extensions */,
+				C574F98B2ECADB23000B898B /* Embed ExtensionKit Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C52A4EC22EC9E6AA00C5430A /* PBXTargetDependency */,
+				C574F9892ECADB23000B898B /* PBXTargetDependency */,
+				C574F99D2ECADBC4000B898B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				C52A4E7C2EC9E17F00C5430A /* Brainrot */,
@@ -256,6 +367,8 @@
 				C52A4EF32EC9E74F00C5430A /* FirebaseRemoteConfig */,
 				C52A4EF52EC9E74F00C5430A /* FirebaseStorage */,
 				C52A4EF72EC9E74F00C5430A /* FirebaseStorageCombine-Community */,
+				C535AFC82ED17768007B8C9F /* RevenueCat */,
+				C535B10F2ED206F3007B8C9F /* Kingfisher */,
 			);
 			productName = Brainrot;
 			productReference = C52A4E7A2EC9E17F00C5430A /* Brainrot.app */;
@@ -330,6 +443,51 @@
 			productReference = C52A4EB82EC9E6AA00C5430A /* BrainrotVPN.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		C574F97D2ECADB23000B898B /* BrainrotActivityReport */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C574F98F2ECADB23000B898B /* Build configuration list for PBXNativeTarget "BrainrotActivityReport" */;
+			buildPhases = (
+				C574F97A2ECADB23000B898B /* Sources */,
+				C574F97B2ECADB23000B898B /* Frameworks */,
+				C574F97C2ECADB23000B898B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C574F97F2ECADB23000B898B /* BrainrotActivityReport */,
+			);
+			name = BrainrotActivityReport;
+			packageProductDependencies = (
+				C535B1132ED2091F007B8C9F /* Kingfisher */,
+			);
+			productName = BrainrotActivityReport;
+			productReference = C574F97E2ECADB23000B898B /* BrainrotActivityReport.appex */;
+			productType = "com.apple.product-type.extensionkit-extension";
+		};
+		C574F9932ECADBC4000B898B /* BrainrotActivityMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C574F9A02ECADBC4000B898B /* Build configuration list for PBXNativeTarget "BrainrotActivityMonitor" */;
+			buildPhases = (
+				C574F9902ECADBC4000B898B /* Sources */,
+				C574F9912ECADBC4000B898B /* Frameworks */,
+				C574F9922ECADBC4000B898B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C574F9972ECADBC4000B898B /* BrainrotActivityMonitor */,
+			);
+			name = BrainrotActivityMonitor;
+			packageProductDependencies = (
+			);
+			productName = BrainrotActivityMonitor;
+			productReference = C574F9942ECADBC4000B898B /* BrainrotActivityMonitor.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -354,6 +512,12 @@
 					C52A4EB72EC9E6AA00C5430A = {
 						CreatedOnToolsVersion = 16.1;
 					};
+					C574F97D2ECADB23000B898B = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					C574F9932ECADBC4000B898B = {
+						CreatedOnToolsVersion = 16.1;
+					};
 				};
 			};
 			buildConfigurationList = C52A4E752EC9E17F00C5430A /* Build configuration list for PBXProject "Brainrot" */;
@@ -368,6 +532,8 @@
 			packageReferences = (
 				C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				C564919C2ECA12C700B86264 /* XCRemoteSwiftPackageReference "wireguard-apple" */,
+				C535AF5A2ED170C8007B8C9F /* XCRemoteSwiftPackageReference "purchases-ios" */,
+				C535B10E2ED20670007B8C9F /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C52A4E7B2EC9E17F00C5430A /* Products */;
@@ -378,6 +544,8 @@
 				C52A4E892EC9E18100C5430A /* BrainrotTests */,
 				C52A4E932EC9E18100C5430A /* BrainrotUITests */,
 				C52A4EB72EC9E6AA00C5430A /* BrainrotVPN */,
+				C574F97D2ECADB23000B898B /* BrainrotActivityReport */,
+				C574F9932ECADBC4000B898B /* BrainrotActivityMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -406,6 +574,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C52A4EB62EC9E6AA00C5430A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C574F97C2ECADB23000B898B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C574F9922ECADBC4000B898B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -443,6 +625,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C574F97A2ECADB23000B898B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C574F9902ECADBC4000B898B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -456,10 +652,15 @@
 			target = C52A4E792EC9E17F00C5430A /* Brainrot */;
 			targetProxy = C52A4E952EC9E18100C5430A /* PBXContainerItemProxy */;
 		};
-		C52A4EC22EC9E6AA00C5430A /* PBXTargetDependency */ = {
+		C574F9892ECADB23000B898B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C52A4EB72EC9E6AA00C5430A /* BrainrotVPN */;
-			targetProxy = C52A4EC12EC9E6AA00C5430A /* PBXContainerItemProxy */;
+			target = C574F97D2ECADB23000B898B /* BrainrotActivityReport */;
+			targetProxy = C574F9882ECADB23000B898B /* PBXContainerItemProxy */;
+		};
+		C574F99D2ECADBC4000B898B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C574F9932ECADBC4000B898B /* BrainrotActivityMonitor */;
+			targetProxy = C574F99C2ECADBC4000B898B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -596,11 +797,14 @@
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Brainrot/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Brainheal;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -628,11 +832,14 @@
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Brainrot/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Brainheal;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -779,6 +986,110 @@
 			};
 			name = Release;
 		};
+		C574F98C2ECADB23000B898B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BrainrotActivityReport/BrainrotActivityReport.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BrainrotActivityReport/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BrainrotActivityReport;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.Brainrot.BrainrotActivityReport;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C574F98D2ECADB23000B898B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BrainrotActivityReport/BrainrotActivityReport.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BrainrotActivityReport/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BrainrotActivityReport;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.Brainrot.BrainrotActivityReport;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C574F9A12ECADBC4000B898B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BrainrotActivityMonitor/BrainrotActivityMonitor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BrainrotActivityMonitor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BrainrotActivityMonitor;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.Brainrot.BrainrotActivityMonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C574F9A22ECADBC4000B898B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BrainrotActivityMonitor/BrainrotActivityMonitor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ4NX29V75;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BrainrotActivityMonitor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BrainrotActivityMonitor;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.Brainrot.BrainrotActivityMonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -827,6 +1138,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		C574F98F2ECADB23000B898B /* Build configuration list for PBXNativeTarget "BrainrotActivityReport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C574F98C2ECADB23000B898B /* Debug */,
+				C574F98D2ECADB23000B898B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C574F9A02ECADBC4000B898B /* Build configuration list for PBXNativeTarget "BrainrotActivityMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C574F9A12ECADBC4000B898B /* Debug */,
+				C574F9A22ECADBC4000B898B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -836,6 +1165,22 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 12.6.0;
+			};
+		};
+		C535AF5A2ED170C8007B8C9F /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.48.0;
+			};
+		};
+		C535B10E2ED20670007B8C9F /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.6.2;
 			};
 		};
 		C564919C2ECA12C700B86264 /* XCRemoteSwiftPackageReference "wireguard-apple" */ = {
@@ -968,6 +1313,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C52A4EB32EC9E4CD00C5430A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
+		};
+		C535AFC82ED17768007B8C9F /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C535AF5A2ED170C8007B8C9F /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
+		C535B10F2ED206F3007B8C9F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C535B10E2ED20670007B8C9F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		C535B1132ED2091F007B8C9F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C535B10E2ED20670007B8C9F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		C56491A32ECA140F00B86264 /* WireGuardKit */ = {
 			isa = XCSwiftPackageProductDependency;

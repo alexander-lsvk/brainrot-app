@@ -12,11 +12,24 @@ import RevenueCat
 @main
 struct BrainrotApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+
     var body: some Scene {
         WindowGroup {
-            SubscriptionView()
+            RootView()
         }
+    }
+    
+    init() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .white
+        appearance.shadowColor = nil
+        appearance.shadowImage = nil
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+
+        UIScrollView.appearance().delaysContentTouches = false
     }
 }
 
@@ -26,14 +39,15 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         FirebaseApp.configure()
-        
+
         Purchases.configure(with: Configuration.Builder(withAPIKey: "appl_zYjWzgwxzJWRPohHbgZjVBrsZLs").build())
         Purchases.shared.delegate = self
         Purchases.logLevel = .error
-        
+
+
         ProductsService.shared.setProducts()
         ProductsService.shared.checkSubscription(completion: { _ in })
-        
+
         return true
     }
 }
