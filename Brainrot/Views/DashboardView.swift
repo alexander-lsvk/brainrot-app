@@ -108,8 +108,9 @@ struct DashboardView: View {
                 }
             }
             .scrollIndicators(.hidden)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                if !ProductsService.shared.subscribed {
+                if ProductsService.shared.subscribed {
                     ToolbarItem(placement: .principal) {
                         Button {
                             

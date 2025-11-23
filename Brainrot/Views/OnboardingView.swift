@@ -124,6 +124,7 @@ struct OnboardingView: View {
     @State private var visibleBenefits: Int = 0
     @State private var visibleMessages: Int = 0
     @State private var visibleTrickMessages: Int = 0
+    @State private var showGalaxyBrainTransformation = false
 
     @State private var showSubscriptionView = false
     @State private var animationWorkItems: [DispatchWorkItem] = []
@@ -683,6 +684,31 @@ struct OnboardingView: View {
                 .foregroundStyle(.textPrimary)
                 .font(.system(size: 18, weight: .regular, design: .rounded))
 
+                if showGalaxyBrainTransformation {
+                    HStack(spacing: 16) {
+                        Image("galaxy-brain-from")
+                            .resizable()
+                            .frame(width: 70, height: 70)
+                            .scaledToFit()
+                            .cornerRadius(16)
+
+                        Image(systemName: "arrow.forward")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20)
+
+                        Image("galaxy-brain-to")
+                            .resizable()
+                            .frame(width: 70, height: 70)
+                            .scaledToFit()
+                            .cornerRadius(16)
+                    }
+                    .padding(.top, 36)
+                    .opacity(showGalaxyBrainTransformation ? 1 : 0)
+                    .offset(y: showGalaxyBrainTransformation ? 0 : 20)
+                    .animation(.easeOut(duration: 0.5), value: showGalaxyBrainTransformation)
+                }
+                
                 Spacer()
 
                 Button {
@@ -706,6 +732,7 @@ struct OnboardingView: View {
         .padding(16)
         .onAppear {
             visibleBenefits = 0
+            showGalaxyBrainTransformation = false
             animateBenefits()
         }
     }
@@ -727,6 +754,13 @@ struct OnboardingView: View {
             animationWorkItems.append(workItem)
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.5, execute: workItem)
         }
+
+        // Show galaxy brain transformation after all benefits are displayed
+        let galaxyBrainWorkItem = DispatchWorkItem {
+            showGalaxyBrainTransformation = true
+        }
+        animationWorkItems.append(galaxyBrainWorkItem)
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(benefits.count) * 0.5 + 0.5, execute: galaxyBrainWorkItem)
     }
 
     private func cancelAnimations() {
