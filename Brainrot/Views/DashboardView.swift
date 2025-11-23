@@ -109,23 +109,50 @@ struct DashboardView: View {
             }
             .scrollIndicators(.hidden)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showSubscriptionView.toggle()
-                    } label: {
-                        Text("HEAL ME!")
-                            .foregroundStyle(.black)
-                            .font(.system(size: 16, weight: .semibold, design: .rounded))
-                    }
-                    .buttonStyle(
-                        PressableButtonStyle(
-                            foregroundColor: .yellow,
-                            backgroundColor: .yellow.opacity(0.7),
-                            cornerRadius: 16,
-                            yOffset: 4
+                if !ProductsService.shared.subscribed {
+                    ToolbarItem(placement: .principal) {
+                        Button {
+                            
+                        } label: {
+                            HStack {
+                                Image("galaxy-brain-to")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .scaledToFit()
+                                Text("GALAXY BRAIN ON")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 16, weight: .semibold, design: .rounded))
+                            }
+                        }
+                        .buttonStyle(
+                            PressableButtonStyle(
+                                foregroundColor: .purple,
+                                backgroundColor: .purple.opacity(0.7),
+                                cornerRadius: 16,
+                                yOffset: 6
+                            )
                         )
-                    )
-                    .frame(width: 100, height: 30)
+                        .frame(width: 200, height: 30)
+                    }
+                } else {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            showSubscriptionView.toggle()
+                        } label: {
+                            Text("HEAL ME!")
+                                .foregroundStyle(.black)
+                                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        }
+                        .buttonStyle(
+                            PressableButtonStyle(
+                                foregroundColor: .yellow,
+                                backgroundColor: .yellow.opacity(0.7),
+                                cornerRadius: 16,
+                                yOffset: 6
+                            )
+                        )
+                        .frame(width: 100, height: 30)
+                    }
                 }
             }
             .alert("Error", isPresented: $viewModel.showError) {
