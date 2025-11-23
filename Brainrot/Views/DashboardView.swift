@@ -133,7 +133,7 @@ struct DashboardView: View {
                                     .resizable()
                                     .frame(width: 20, height: 20)
                                     .scaledToFit()
-                                Text("GALAXY BRAIN ON")
+                                Text("GALAXY BRAIN USER")
                                     .foregroundStyle(.white)
                                     .font(.system(size: 16, weight: .semibold, design: .rounded))
                             }
@@ -146,7 +146,7 @@ struct DashboardView: View {
                                 yOffset: 6
                             )
                         )
-                        .frame(width: 200, height: 30)
+                        .frame(width: 220, height: 30)
                     }
                 } else {
                     ToolbarItem(placement: .topBarTrailing) {
