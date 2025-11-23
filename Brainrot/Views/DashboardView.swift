@@ -173,6 +173,20 @@ struct DashboardView: View {
                         .frame(width: 100, height: 30)
                     }
                 }
+
+                #if targetEnvironment(simulator)
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        Task {
+                            await cleanUserData()
+                        }
+                    } label: {
+                        Image(systemName: "trash.circle.fill")
+                            .foregroundStyle(.red)
+                            .font(.system(size: 20))
+                    }
+                }
+                #endif
             }
             .alert("Error", isPresented: $viewModel.showError) {
                 Button("OK", role: .cancel) {}
@@ -187,6 +201,12 @@ struct DashboardView: View {
             //            await viewModel.loadUserData()
             await screenTimeManager.checkAuthorization()
         }
+    }
+
+    // MARK: - Helper Methods
+    private func cleanUserData() async {
+        // 2. Sign out from Firebase Auth
+        authManager.signOut()
     }
 }
 
