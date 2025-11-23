@@ -40,6 +40,7 @@
 		C574F98A2ECADB23000B898B /* BrainrotActivityReport.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = C574F97E2ECADB23000B898B /* BrainrotActivityReport.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C574F9962ECADBC4000B898B /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C574F9952ECADBC4000B898B /* DeviceActivity.framework */; };
 		C574F99E2ECADBC4000B898B /* BrainrotActivityMonitor.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C574F9942ECADBC4000B898B /* BrainrotActivityMonitor.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C5787F512ED2DE1600CF181C /* BrainrotVPN.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C52A4EB82EC9E6AA00C5430A /* BrainrotVPN.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,13 @@
 			remoteGlobalIDString = C574F9932ECADBC4000B898B;
 			remoteInfo = BrainrotActivityMonitor;
 		};
+		C5787F522ED2DE1600CF181C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C52A4E722EC9E17F00C5430A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C52A4EB72EC9E6AA00C5430A;
+			remoteInfo = BrainrotVPN;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -80,6 +88,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				C5787F512ED2DE1600CF181C /* BrainrotVPN.appex in Embed Foundation Extensions */,
 				C574F99E2ECADBC4000B898B /* BrainrotActivityMonitor.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -337,6 +346,7 @@
 			dependencies = (
 				C574F9892ECADB23000B898B /* PBXTargetDependency */,
 				C574F99D2ECADBC4000B898B /* PBXTargetDependency */,
+				C5787F532ED2DE1600CF181C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				C52A4E7C2EC9E17F00C5430A /* Brainrot */,
@@ -661,6 +671,11 @@
 			isa = PBXTargetDependency;
 			target = C574F9932ECADBC4000B898B /* BrainrotActivityMonitor */;
 			targetProxy = C574F99C2ECADBC4000B898B /* PBXContainerItemProxy */;
+		};
+		C5787F532ED2DE1600CF181C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C52A4EB72EC9E6AA00C5430A /* BrainrotVPN */;
+			targetProxy = C5787F522ED2DE1600CF181C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

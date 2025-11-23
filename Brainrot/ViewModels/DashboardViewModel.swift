@@ -45,8 +45,11 @@ class DashboardViewModel: ObservableObject {
     }
 
     func toggleVPN() async {
+        /* Testing
         isVPNConnected.toggle()
         return
+        */
+        
         isLoading = true
         defer { isLoading = false }
 

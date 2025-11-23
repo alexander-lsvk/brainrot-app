@@ -63,15 +63,16 @@ struct DashboardView: View {
                         showSubscriptionView: $showSubscriptionView,
                         onToggle: {
                             Task {
+                                await viewModel.loadUserData()
                                 await viewModel.toggleVPN()
                             }
                         }
                     )
 
                     // User Info Card
-                    if let user = viewModel.user {
-                        UserInfoCard(user: user)
-                    }
+//                    if let user = viewModel.user {
+//                        UserInfoCard(user: user)
+//                    }
 
                     // Bandwidth Controls
                     //                        BandwidthControlCard(

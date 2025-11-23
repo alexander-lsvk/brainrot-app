@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RootView: View {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    
+    @StateObject private var authManager = AuthManager()
 
     var body: some View {
         DashboardView()
@@ -20,6 +22,9 @@ struct RootView: View {
             }
             .transaction { transaction in
                 transaction.disablesAnimations = !hasCompletedOnboarding
+            }
+            .task {
+                await authManager.signInAnonymously()
             }
     }
 }
