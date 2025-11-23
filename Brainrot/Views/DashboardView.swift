@@ -60,6 +60,8 @@ struct DashboardView: View {
                     // VPN Status Card
                     VPNStatusCard(
                         isConnected: viewModel.isVPNConnected,
+                        isLoading: viewModel.isLoading,
+                        isSubscribed: productsService.subscribed,
                         showSubscriptionView: $showSubscriptionView,
                         onToggle: {
                             Task {
@@ -190,6 +192,8 @@ struct DashboardView: View {
 // MARK: - VPN Status Card
 struct VPNStatusCard: View {
     let isConnected: Bool
+    let isLoading: Bool
+    let isSubscribed: Bool
     @Binding var showSubscriptionView: Bool
     let onToggle: () -> Void
 
@@ -213,16 +217,26 @@ struct VPNStatusCard: View {
                 .padding(.bottom, 16)
             
             Button {
-                AnalyticsManager.shared.trackButtonClicked(
-                    buttonName: isConnected ? "stop_vpn" : "start_vpn",
-                    screen: "dashboard"
-                )
-                AnalyticsManager.shared.trackVPNToggled(isEnabled: !isConnected)
-                onToggle()
+                if isSubscribed {
+                    AnalyticsManager.shared.trackButtonClicked(
+                        buttonName: isConnected ? "stop_vpn" : "start_vpn",
+                        screen: "dashboard"
+                    )
+                    AnalyticsManager.shared.trackVPNToggled(isEnabled: !isConnected)
+                    onToggle()
+                } else {
+                    showSubscriptionView = true
+                }
             } label: {
-                Text(!isConnected ? "Start Brain Healing" : "Back To Rotting")
-                    .foregroundStyle(.white)
-                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .scaleEffect(1.2)
+                } else {
+                    Text(!isConnected ? "Start Brain Healing" : "Back To Rotting")
+                        .foregroundStyle(.white)
+                        .font(.system(size: 20, weight: .semibold, design: .rounded))
+                }
             }
             .buttonStyle(
                 PressableButtonStyle(
@@ -233,6 +247,7 @@ struct VPNStatusCard: View {
             )
             .frame(height: 60)
             .padding(.top, 16)
+            .disabled(isLoading)
             
             Button {
                 AlertWindowPresenter.shared.present(
