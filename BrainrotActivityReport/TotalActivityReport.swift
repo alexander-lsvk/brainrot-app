@@ -46,6 +46,27 @@ struct TotalActivityReport: DeviceActivityReportScene {
 
         print("✅ Extension: Finished processing. Found \(apps.count) apps, total duration: \(totalDuration)")
 
+        // If no data from DeviceActivityResults, try loading from UserDefaults cache
+        if apps.isEmpty {
+            print("⚠️ Extension: No data from DeviceActivityResults, checking UserDefaults cache...")
+            if let defaults = UserDefaults(suiteName: "group.com.app.Brainrot"),
+               let savedData = defaults.data(forKey: "lastActivityReport"),
+               let decoded = try? JSONDecoder().decode(CachedActivityReport.self, from: savedData) {
+                print("✅ Extension: Loaded \(decoded.apps.count) apps from cache")
+                return ActivityReport(totalDuration: decoded.totalDuration, apps: decoded.apps)
+            } else {
+                print("❌ Extension: No cached data available")
+            }
+        } else {
+            // Save to cache for next time
+            let cached = CachedActivityReport(totalDuration: totalDuration, apps: apps)
+            if let encoded = try? JSONEncoder().encode(cached),
+               let defaults = UserDefaults(suiteName: "group.com.app.Brainrot") {
+                defaults.set(encoded, forKey: "lastActivityReport")
+                print("💾 Extension: Saved to cache")
+            }
+        }
+
         // Sort apps by duration
         apps.sort { $0.duration > $1.duration }
 
@@ -83,4 +104,35 @@ struct AppActivity: Identifiable {
     let bundleIdentifier: String
     let duration: TimeInterval
     let category: String
+}
+
+// MARK: - Cached Activity Report (Codable for UserDefaults)
+struct CachedActivityReport: Codable {
+    let totalDuration: TimeInterval
+    let apps: [AppActivity]
+}
+
+extension AppActivity: Codable {
+    enum CodingKeys: String, CodingKey {
+        case displayName
+        case bundleIdentifier
+        case duration
+        case category
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        displayName = try container.decode(String.self, forKey: .displayName)
+        bundleIdentifier = try container.decode(String.self, forKey: .bundleIdentifier)
+        duration = try container.decode(TimeInterval.self, forKey: .duration)
+        category = try container.decode(String.self, forKey: .category)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(displayName, forKey: .displayName)
+        try container.encode(bundleIdentifier, forKey: .bundleIdentifier)
+        try container.encode(duration, forKey: .duration)
+        try container.encode(category, forKey: .category)
+    }
 }

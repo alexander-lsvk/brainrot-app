@@ -119,13 +119,14 @@ struct OnboardingView: View {
     
     @StateObject private var screenTimeManager = ScreenTimeManager.shared
 
-    @State private var currentStep: OnboardingStep = .welcome
+    @State private var currentStep: OnboardingStep = .allowScreenTime
     @State private var isAnimating = false
     @State private var visibleBenefits: Int = 0
     @State private var visibleMessages: Int = 0
     @State private var visibleTrickMessages: Int = 0
-    
+
     @State private var showSubscriptionView = false
+    @State private var animationWorkItems: [DispatchWorkItem] = []
     
     var body: some View {
         NavigationView {
@@ -272,6 +273,7 @@ struct OnboardingView: View {
                 Spacer()
 
                 Button {
+                    cancelAnimations()
                     currentStep = .howItWorks
                 } label: {
                     Text("How?")
@@ -306,11 +308,14 @@ struct OnboardingView: View {
     ]
 
     private func animateMessages() {
+        cancelAnimations()
         for i in 0..<chatMessages.count {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 1.0) {
+            let workItem = DispatchWorkItem {
                 visibleMessages = i + 1
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
             }
+            animationWorkItems.append(workItem)
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 1.0, execute: workItem)
         }
     }
 
@@ -354,6 +359,7 @@ struct OnboardingView: View {
                 Spacer()
 
                 Button {
+                    cancelAnimations()
                     currentStep = .rating
                 } label: {
                     Text("Quit Scrolling")
@@ -389,11 +395,14 @@ struct OnboardingView: View {
     ]
 
     private func animateTrickMessages() {
+        cancelAnimations()
         for i in 0..<trickMessages.count {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 1.0) {
+            let workItem = DispatchWorkItem {
                 visibleTrickMessages = i + 1
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
             }
+            animationWorkItems.append(workItem)
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 1.0, execute: workItem)
         }
     }
     
@@ -557,7 +566,7 @@ struct OnboardingView: View {
                 Button {
                     currentStep = .ups
                 } label: {
-                    Text("Continue")
+                    Text("Next")
                         .foregroundStyle(.white)
                         .font(.system(size: 20, weight: .semibold, design: .rounded))
                 }
@@ -572,42 +581,81 @@ struct OnboardingView: View {
                 .disabled(!screenTimeManager.isAuthorized)
             }
 
-            Image("screen-time-access")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 270)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    Task {
-                        do {
-                            try await screenTimeManager.requestAuthorization()
-                        } catch {
-                            print("Authorization failed: \(error)")
+            if screenTimeManager.isAuthorized {
+                // Success state
+                VStack(spacing: 16) {
+                    Image("mascot")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 150)
+
+                    Text("Awesome!\nI can see your brainrot now")
+                        .foregroundStyle(.textPrimary)
+                        .font(.system(size: 24, weight: .bold, design: .rounded))
+                        .multilineTextAlignment(.center)
+
+                    Text("Tap \"Next\" to start fixing it")
+                        .foregroundStyle(.textSecondary)
+                        .font(.system(size: 18, weight: .regular, design: .rounded))
+                        .multilineTextAlignment(.center)
+                }
+                .transition(.opacity.combined(with: .scale))
+            } else {
+                // Waiting for permission state
+                Image("screen-time-access")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 270)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        Task {
+                            do {
+                                try await screenTimeManager.requestAuthorization()
+                            } catch {
+                                print("Authorization failed: \(error)")
+                            }
                         }
                     }
-                }
-                .overlay(alignment: .bottom) {
-                    VStack(alignment: .center) {
-                        Image(systemName: "arrow.up")
-                            .font(.system(size: 18, weight: .bold, design: .rounded))
-                            .foregroundStyle(.textPrimary)
+                    .overlay(alignment: .bottom) {
+                        VStack(alignment: .center) {
+                            Image(systemName: "arrow.up")
+                                .font(.system(size: 18, weight: .bold, design: .rounded))
+                                .foregroundStyle(.textPrimary)
 
-                        Text("Tap to Allow")
-                            .font(.system(size: 16, weight: .bold, design: .rounded))
+                            Text("Tap \"Continue\"")
+                                .font(.system(size: 16, weight: .bold, design: .rounded))
+                                .foregroundStyle(.textPrimary)
+                        }
+                        .offset(x: -70, y: isAnimating ? 45 : 55)
+                        .animation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true), value: isAnimating)
+                    }
+                    .overlay(alignment: .top) {
+                        Text("A system prompt is coming up ⚙️\nJust tap \"Continue\" when it appears")
                             .foregroundStyle(.textPrimary)
+                            .font(.system(size: 18, weight: .medium, design: .rounded))
+                            .multilineTextAlignment(.center)
+                            .offset(y: -80)
+                            .frame(width: 400)
                     }
-                    .offset(x: -70, y: isAnimating ? 45 : 55)
-                    .animation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true), value: isAnimating)
-                    .opacity(screenTimeManager.isAuthorized ? 0 : 1)
-                }
-                .onAppear {
-                    isAnimating = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        isAnimating = true
+                    .onAppear {
+                        isAnimating = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            isAnimating = true
+                        }
                     }
-                }
+                    .transition(.opacity.combined(with: .scale))
+            }
         }
         .padding(16)
+        .onAppear {
+            Task {
+                do {
+                    try await screenTimeManager.requestAuthorization()
+                } catch {
+                    print("Authorization failed: \(error)")
+                }
+            }
+        }
     }
     
     private func ups() -> some View {
@@ -638,6 +686,7 @@ struct OnboardingView: View {
                 Spacer()
 
                 Button {
+                    cancelAnimations()
                     showSubscriptionView.toggle()
                 } label: {
                     Text("Continue")
@@ -669,12 +718,20 @@ struct OnboardingView: View {
     ]
 
     private func animateBenefits() {
+        cancelAnimations()
         for i in 0..<benefits.count {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.5) {
+            let workItem = DispatchWorkItem {
                 visibleBenefits = i + 1
                 UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
             }
+            animationWorkItems.append(workItem)
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.5, execute: workItem)
         }
+    }
+
+    private func cancelAnimations() {
+        animationWorkItems.forEach { $0.cancel() }
+        animationWorkItems.removeAll()
     }
 
     private func requestAppStoreReview() {

@@ -18,5 +18,8 @@ struct RootView: View {
             )) {
                 OnboardingView()
             }
+            .transaction { transaction in
+                transaction.disablesAnimations = true
+            }
     }
 }
