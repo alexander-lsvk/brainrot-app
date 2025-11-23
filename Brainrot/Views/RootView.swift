@@ -13,7 +13,7 @@ struct RootView: View {
     @StateObject private var authManager = AuthManager()
 
     var body: some View {
-        DashboardView()
+        DashboardView(authManager: authManager)
             .fullScreenCover(isPresented: Binding(
                 get: { !hasCompletedOnboarding },
                 set: { hasCompletedOnboarding = !$0 }

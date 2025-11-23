@@ -35,6 +35,7 @@ struct AppActivity: Identifiable {
 // #endif
 
 struct DashboardView: View {
+    @ObservedObject var authManager: AuthManager
     @StateObject private var viewModel = DashboardViewModel()
     @StateObject private var screenTimeManager = ScreenTimeManager.shared
     @StateObject private var productsService = ProductsService.shared
@@ -60,7 +61,7 @@ struct DashboardView: View {
                     // VPN Status Card
                     VPNStatusCard(
                         isConnected: viewModel.isVPNConnected,
-                        isLoading: viewModel.isLoading,
+                        isLoading: viewModel.isLoading || authManager.isLoading || !authManager.isAuthenticated,
                         isSubscribed: productsService.subscribed,
                         showSubscriptionView: $showSubscriptionView,
                         onToggle: {
@@ -680,5 +681,5 @@ struct ProgressIndicator: View {
 }
 
 #Preview {
-    DashboardView()
+    DashboardView(authManager: AuthManager())
 }

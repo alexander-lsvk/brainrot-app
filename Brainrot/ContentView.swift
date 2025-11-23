@@ -13,7 +13,7 @@ struct ContentView: View {
     var body: some View {
         Group {
             if authManager.isAuthenticated {
-                DashboardView()
+                DashboardView(authManager: authManager)
             } else {
                 LoadingView(authManager: authManager)
             }
