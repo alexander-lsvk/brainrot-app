@@ -52,62 +52,53 @@ struct DashboardView: View {
         NavigationView {
             ZStack {
                 // Background gradient
-                Color.white
+                LinearGradient(colors: [.white, .green.opacity(0.3), .white, .white, .white], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
-                
-                ScrollView {
-                    ZStack {
-                        LinearGradient(colors: [.white, .green.opacity(0.3), .white, .white, .white], startPoint: .top, endPoint: .bottom)
-                            .ignoresSafeArea()
-                            .padding(.horizontal, -16)
-                        
-                        VStack(spacing: 24) {
-                            // VPN Status Card
-                            VPNStatusCard(
-                                isConnected: viewModel.isVPNConnected,
-                                showSubscriptionView: $showSubscriptionView,
-                                onToggle: {
-                                    Task {
-                                        await viewModel.toggleVPN()
-                                    }
-                                }
-                            )
-                            
-                            // User Info Card
-                            if let user = viewModel.user {
-                                UserInfoCard(user: user)
+
+                VStack(spacing: 24) {
+                    // VPN Status Card
+                    VPNStatusCard(
+                        isConnected: viewModel.isVPNConnected,
+                        showSubscriptionView: $showSubscriptionView,
+                        onToggle: {
+                            Task {
+                                await viewModel.toggleVPN()
                             }
-                            
-                            // Bandwidth Controls
-                            //                        BandwidthControlCard(
-                            //                            downloadSpeed: Binding(
-                            //                                get: { viewModel.downloadLimit ?? 0 },
-                            //                                set: { viewModel.downloadLimit = $0 == 0 ? nil : $0 }
-                            //                            ),
-                            //                            uploadSpeed: Binding(
-                            //                                get: { viewModel.uploadLimit ?? 0 },
-                            //                                set: { viewModel.uploadLimit = $0 == 0 ? nil : $0 }
-                            //                            ),
-                            //                            onSave: {
-                            //                                Task {
-                            //                                    await viewModel.saveBandwidthLimits()
-                            //                                }
-                            //                            }
-                            //                        )
-                            
-                            //                        if viewModel.isLoading {
-                            //                            ProgressView()
-                            //                                .scaleEffect(1.5)
-                            //                                .padding()
-                            //                        }
-                            
-                            // Screen Time Section - Single UI, different data source
-                            ScreenTimeSection()
-                                .frame(height: 650)
                         }
+                    )
+
+                    // User Info Card
+                    if let user = viewModel.user {
+                        UserInfoCard(user: user)
                     }
-                    .padding(16)
+
+                    // Bandwidth Controls
+                    //                        BandwidthControlCard(
+                    //                            downloadSpeed: Binding(
+                    //                                get: { viewModel.downloadLimit ?? 0 },
+                    //                                set: { viewModel.downloadLimit = $0 == 0 ? nil : $0 }
+                    //                            ),
+                    //                            uploadSpeed: Binding(
+                    //                                get: { viewModel.uploadLimit ?? 0 },
+                    //                                set: { viewModel.uploadLimit = $0 == 0 ? nil : $0 }
+                    //                            ),
+                    //                            onSave: {
+                    //                                Task {
+                    //                                    await viewModel.saveBandwidthLimits()
+                    //                                }
+                    //                            }
+                    //                        )
+
+                    //                        if viewModel.isLoading {
+                    //                            ProgressView()
+                    //                                .scaleEffect(1.5)
+                    //                                .padding()
+                    //                        }
+
+                    // Screen Time Section - Single UI, different data source
+                    ScreenTimeSection()
                 }
+                .padding(16)
                 
                 VStack {
                     LinearGradient(colors: [.white, .clear], startPoint: .top, endPoint: .bottom)
@@ -164,8 +155,8 @@ struct VPNStatusCard: View {
             Image("mascot")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 200)
-                .padding(.bottom, 32)
+                .frame(width: UIScreen.main.bounds.height > 700 ? 200 : 120)
+                .padding(.bottom, UIScreen.main.bounds.height > 700 ? 32 : 16)
             
             Text(isConnected ? "Your brain is healing" : "Your brain needs a break")
                 .foregroundStyle(.black)
@@ -367,11 +358,9 @@ struct ScreenTimeSection: View {
 #if targetEnvironment(simulator)
             // SIMULATOR: Show mock data using the SAME shared UI component
             SharedScreenTimeView(activityReport: Self.mockData)
-                .frame(height: 700)
 #else
             // DEVICE: Show real DeviceActivityReport (authorization is handled in onboarding)
             DeviceActivityReport(.totalActivity, filter: filter)
-                .frame(height: 650)
 #endif
         }
     }
@@ -428,112 +417,113 @@ struct SharedScreenTimeView: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Two Column Stats Card
-            HStack(spacing: 12) {
-                // Today's Total Column
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Today's Total")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    Spacer()
-
-                    Text(formatDuration(activityReport.totalDuration))
-                        .font(.system(size: 36, weight: .bold, design: .rounded))
-                        .foregroundColor(.primary)
-
-                    Text("Very Bad")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(16)
-
-                // Progress Column
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Your Progress")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    if let historical = activityReport.historicalAverages {
-                        VStack(spacing: 6) {
-                            ProgressIndicator(label: "Yesterday", data: comparisonData(for: historical.yesterday))
-                            ProgressIndicator(label: "Last 7 days", data: comparisonData(for: historical.lastWeek))
-                            ProgressIndicator(label: "Last 30 days", data: comparisonData(for: historical.lastMonth))
-                        }
-                    } else {
-                        Text("Building history...")
-                            .font(.caption)
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 16) {
+                // Two Column Stats Card
+                HStack(spacing: 12) {
+                    // Today's Total Column
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Today's Total")
+                            .font(.subheadline)
                             .foregroundColor(.secondary)
-                            .padding(.top, 8)
-                    }
-                }
-                .frame(maxWidth: .infinity)
-                .padding(16)
-            }
-            .frame(height: 100)
-            
-            VStack(spacing: 0) {
-                ForEach(activityReport.apps.prefix(10)) { app in
-                    VStack(spacing: 0) {
-                        HStack(spacing: 12) {
-                            // App Icon
-                            if let token = app.token {
-                                Label(token)
-                                    .labelStyle(.iconOnly)
-                                    .font(.largeTitle)
-                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
 
-                            // App Info
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(app.displayName)
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
-                                Text(app.category)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                        Spacer()
+
+                        Text(formatDuration(activityReport.totalDuration))
+                            .font(.system(size: 36, weight: .bold, design: .rounded))
+                            .foregroundColor(.primary)
+
+                        Text("Very Bad")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(16)
+
+                    // Progress Column
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Your Progress")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                        if let historical = activityReport.historicalAverages {
+                            VStack(spacing: 6) {
+                                ProgressIndicator(label: "Yesterday", data: comparisonData(for: historical.yesterday))
+                                ProgressIndicator(label: "Last 7 days", data: comparisonData(for: historical.lastWeek))
+                                ProgressIndicator(label: "Last 30 days", data: comparisonData(for: historical.lastMonth))
                             }
-                            
-                            Spacer()
-                            
-                            // Usage Time
-                            VStack(alignment: .trailing, spacing: 2) {
-                                Text(formatDuration(app.duration))
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                
-                                // Progress bar
-                                GeometryReader { geometry in
-                                    let maxDuration = activityReport.apps.first?.duration ?? 1
-                                    let percentage = app.duration / maxDuration
-                                    
-                                    ZStack(alignment: .leading) {
-                                        Rectangle()
-                                            .fill(Color.gray.opacity(0.2))
-                                            .frame(width: 60, height: 3)
-                                        
-                                        Rectangle()
-                                            .fill(iconColor(for: app.category))
-                                            .frame(width: 60 * percentage, height: 3)
-                                    }
-                                }
-                                .frame(width: 60, height: 3)
-                            }
-                        }
-                        .padding(.vertical, 4)
-                        
-                        if app.id != activityReport.apps.prefix(20).last?.id {
-                            Divider()
+                        } else {
+                            Text("Building history...")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .padding(.top, 8)
                         }
                     }
-                    .frame(height: 60)
+                    .frame(maxWidth: .infinity)
+                    .padding(16)
                 }
-                
+                .frame(height: 100)
+
+                // App List
+                VStack(spacing: 0) {
+                    ForEach(activityReport.apps) { app in
+                        VStack(spacing: 0) {
+                            HStack(spacing: 12) {
+                                // App Icon
+                                if let token = app.token {
+                                    Label(token)
+                                        .labelStyle(.iconOnly)
+                                        .font(.largeTitle)
+                                }
+
+                                // App Info
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(app.displayName)
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                    Text(app.category)
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+
+                                Spacer()
+
+                                // Usage Time
+                                VStack(alignment: .trailing, spacing: 2) {
+                                    Text(formatDuration(app.duration))
+                                        .font(.subheadline)
+                                        .fontWeight(.semibold)
+
+                                    // Progress bar
+                                    GeometryReader { geometry in
+                                        let maxDuration = activityReport.apps.first?.duration ?? 1
+                                        let percentage = app.duration / maxDuration
+
+                                        ZStack(alignment: .leading) {
+                                            Rectangle()
+                                                .fill(Color.gray.opacity(0.2))
+                                                .frame(width: 60, height: 3)
+
+                                            Rectangle()
+                                                .fill(iconColor(for: app.category))
+                                                .frame(width: 60 * percentage, height: 3)
+                                        }
+                                    }
+                                    .frame(width: 60, height: 3)
+                                }
+                            }
+                            .padding(.vertical, 4)
+
+                            if app.id != activityReport.apps.last?.id {
+                                Divider()
+                            }
+                        }
+                        .frame(height: 60)
+                    }
+                }
             }
-            .frame(height: 600)
         }
     }
     

@@ -119,7 +119,7 @@ struct OnboardingView: View {
     
     @StateObject private var screenTimeManager = ScreenTimeManager.shared
 
-    @State private var currentStep: OnboardingStep = .allowScreenTime
+    @State private var currentStep: OnboardingStep = .welcome
     @State private var isAnimating = false
     @State private var visibleBenefits: Int = 0
     @State private var visibleMessages: Int = 0

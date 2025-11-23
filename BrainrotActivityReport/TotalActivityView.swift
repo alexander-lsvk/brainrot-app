@@ -27,61 +27,134 @@ struct TotalActivityView: View {
     }
     
     var body: some View {
-        VStack(spacing: 16) {
-            // Two Column Stats Card
-            HStack(spacing: 16) {
-                // Today's Total Column
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Today's Total")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    Spacer()
-
-                    Text(formatDuration(activityReport.totalDuration))
-                        .font(.system(size: 36, weight: .bold, design: .rounded))
-                        .foregroundColor(.primary)
-
-                    Text("\(activityReport.apps.count) apps")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 100)
-                .padding()
-                .background(Color(uiColor: .systemBackground))
-                .cornerRadius(16)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(
-                            Color(red: 130/255, green: 130/255, blue: 130/255).opacity(0.1),
-                            lineWidth: 1
-                        )
-                }
-
-                // Progress Column
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Your Progress")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    if let historical = activityReport.historicalAverages {
-                        VStack(spacing: 6) {
-                            ProgressIndicator(label: "Yesterday", data: comparisonData(for: historical.yesterday))
-                            ProgressIndicator(label: "Last 7 days", data: comparisonData(for: historical.lastWeek))
-                            ProgressIndicator(label: "Last 30 days", data: comparisonData(for: historical.lastMonth))
-                        }
-                    } else {
-                        Text("Building history...")
-                            .font(.caption)
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 16) {
+                // Two Column Stats Card
+                HStack(spacing: 16) {
+                    // Today's Total Column
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Today's Total")
+                            .font(.subheadline)
                             .foregroundColor(.secondary)
-                            .padding(.top, 8)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                        Spacer()
+
+                        Text(formatDuration(activityReport.totalDuration))
+                            .font(.system(size: 36, weight: .bold, design: .rounded))
+                            .foregroundColor(.primary)
+
+                        Text("\(activityReport.apps.count) apps")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 100)
+                    .padding()
+                    .background(Color(uiColor: .systemBackground))
+                    .cornerRadius(16)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(
+                                Color(red: 130/255, green: 130/255, blue: 130/255).opacity(0.1),
+                                lineWidth: 1
+                            )
+                    }
+
+                    // Progress Column
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Your Progress")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                        if let historical = activityReport.historicalAverages {
+                            VStack(spacing: 6) {
+                                ProgressIndicator(label: "Yesterday", data: comparisonData(for: historical.yesterday))
+                                ProgressIndicator(label: "Last 7 days", data: comparisonData(for: historical.lastWeek))
+                                ProgressIndicator(label: "Last 30 days", data: comparisonData(for: historical.lastMonth))
+                            }
+                        } else {
+                            Text("Building history...")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .padding(.top, 8)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 100)
+                    .padding()
+                    .background(Color(uiColor: .systemBackground))
+                    .cornerRadius(16)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(
+                                Color(red: 130/255, green: 130/255, blue: 130/255).opacity(0.1),
+                                lineWidth: 1
+                            )
                     }
                 }
-                .frame(maxWidth: .infinity)
-                .frame(height: 100)
+                .frame(height: 130)
+                .padding(.top, 2)
+
+                // App List
+                VStack(alignment: .leading, spacing: 0) {
+                    ForEach(activityReport.apps) { app in
+                        VStack(spacing: 0) {
+                            HStack(alignment: .center, spacing: 12) {
+                                // App Icon
+                                if let token = app.token {
+                                    Label(token)
+                                        .labelStyle(.iconOnly)
+                                        .font(.largeTitle)
+                                }
+
+                                // App Info
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(app.displayName)
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                    Text(app.category)
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                .frame(height: 50)
+
+                                Spacer()
+
+                                // Usage Time
+                                VStack(alignment: .trailing, spacing: 2) {
+                                    Text(formatDuration(app.duration))
+                                        .font(.subheadline)
+                                        .fontWeight(.semibold)
+
+                                    // Progress bar
+                                    GeometryReader { geometry in
+                                        let maxDuration = activityReport.apps.first?.duration ?? 1
+                                        let percentage = app.duration / maxDuration
+
+                                        ZStack(alignment: .leading) {
+                                            Rectangle()
+                                                .fill(Color.gray.opacity(0.2))
+                                                .frame(width: 60, height: 3)
+
+                                            Rectangle()
+                                                .fill(iconColor(for: app.category))
+                                                .frame(width: 60 * percentage, height: 3)
+                                        }
+                                    }
+                                    .frame(width: 60, height: 3)
+                                }
+                                .frame(height: 50)
+                            }
+
+                            if app.id != activityReport.apps.last?.id {
+                                Divider()
+                            }
+                        }
+                        .frame(height: 50)
+                    }
+                }
                 .padding()
                 .background(Color(uiColor: .systemBackground))
                 .cornerRadius(16)
@@ -92,78 +165,6 @@ struct TotalActivityView: View {
                             lineWidth: 1
                         )
                 }
-            }
-            .frame(height: 130)
-            .padding(.bottom, 1)
-            
-            // App List
-            VStack(alignment: .leading, spacing: 0) {
-                ForEach(activityReport.apps.prefix(10)) { app in
-                    VStack(spacing: 0) {
-                        HStack(alignment: .center, spacing: 12) {
-                            // App Icon
-                            if let token = app.token {
-                                Label(token)
-                                    .labelStyle(.iconOnly)
-                                    .font(.largeTitle)
-                            }
-
-                            // App Info
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(app.displayName)
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
-                                Text(app.category)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            .frame(height: 50)
-                            
-                            Spacer()
-                            
-                            // Usage Time
-                            VStack(alignment: .trailing, spacing: 2) {
-                                Text(formatDuration(app.duration))
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                
-                                // Progress bar
-                                GeometryReader { geometry in
-                                    let maxDuration = activityReport.apps.first?.duration ?? 1
-                                    let percentage = app.duration / maxDuration
-                                    
-                                    ZStack(alignment: .leading) {
-                                        Rectangle()
-                                            .fill(Color.gray.opacity(0.2))
-                                            .frame(width: 60, height: 3)
-                                        
-                                        Rectangle()
-                                            .fill(iconColor(for: app.category))
-                                            .frame(width: 60 * percentage, height: 3)
-                                    }
-                                }
-                                .frame(width: 60, height: 3)
-                            }
-                            .frame(height: 50)
-                        }
-                        
-                        if app.id != activityReport.apps.prefix(20).last?.id {
-                            Divider()
-                        }
-                    }
-                    .frame(height: 50)
-                }
-            }
-            .padding()
-            .background(Color(uiColor: .systemBackground))
-            .cornerRadius(16)
-            .frame(height: 500)
-            .overlay {
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(
-                        Color(red: 130/255, green: 130/255, blue: 130/255).opacity(0.1),
-                        lineWidth: 1
-                    )
             }
         }
     }
