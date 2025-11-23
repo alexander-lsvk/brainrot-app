@@ -11,29 +11,19 @@ import SwiftUI
 
 struct TotalActivityView: View {
     let activityReport: ActivityReport
-    
-    // Mock improvement data (will be replaced with real logic later)
-    private var averageScreenTime: TimeInterval {
-        // Mock: average is 6 hours
-        return 21600
-    }
-    
-    private var improvementPercentage: Double {
-        let diff = averageScreenTime - activityReport.totalDuration
-        return (diff / averageScreenTime) * 100
-    }
-    
-    private var improvementText: String {
-        let percentage = abs(improvementPercentage)
-        return String(format: "%.0f%%", percentage)
-    }
-    
-    private var improvementIcon: String {
-        improvementPercentage > 0 ? "arrow.down.circle.fill" : "arrow.up.circle.fill"
-    }
-    
-    private var improvementColor: Color {
-        improvementPercentage > 0 ? .green : .red
+
+    private func comparisonData(for period: TimeInterval) -> (percentage: Double, icon: String, color: Color, text: String) {
+        guard period > 0 else {
+            return (0, "minus.circle.fill", .gray, "N/A")
+        }
+
+        let diff = period - activityReport.totalDuration
+        let percentage = (diff / period) * 100
+        let icon = percentage > 0 ? "arrow.down.circle.fill" : "arrow.up.circle.fill"
+        let color: Color = percentage > 0 ? .green : .red
+        let text = String(format: "%.0f%%", abs(percentage))
+
+        return (percentage, icon, color, text)
     }
     
     var body: some View {
@@ -41,15 +31,18 @@ struct TotalActivityView: View {
             // Two Column Stats Card
             HStack(spacing: 16) {
                 // Today's Total Column
-                VStack(spacing: 4) {
+                VStack(alignment: .leading, spacing: 4) {
                     Text("Today's Total")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
-                    
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Spacer()
+
                     Text(formatDuration(activityReport.totalDuration))
                         .font(.system(size: 36, weight: .bold, design: .rounded))
                         .foregroundColor(.primary)
-                    
+
                     Text("\(activityReport.apps.count) apps")
                         .font(.caption2)
                         .foregroundColor(.secondary)
@@ -62,30 +55,30 @@ struct TotalActivityView: View {
                 .overlay {
                     RoundedRectangle(cornerRadius: 16)
                         .stroke(
-                            Color(red: 130, green: 130, blue: 130).opacity(0.2),
+                            Color(red: 130/255, green: 130/255, blue: 130/255).opacity(0.1),
                             lineWidth: 1
                         )
                 }
-                
-                // Improvement Column
-                VStack(spacing: 4) {
-                    Text("Improvement")
+
+                // Progress Column
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Your Progress")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
-                    
-                    HStack(spacing: 4) {
-                        Image(systemName: improvementIcon)
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(improvementColor)
-                        
-                        Text(improvementText)
-                            .font(.system(size: 36, weight: .bold, design: .rounded))
-                            .foregroundColor(improvementColor)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    if let historical = activityReport.historicalAverages {
+                        VStack(spacing: 6) {
+                            ProgressIndicator(label: "Yesterday", data: comparisonData(for: historical.yesterday))
+                            ProgressIndicator(label: "Last 7 days", data: comparisonData(for: historical.lastWeek))
+                            ProgressIndicator(label: "Last 30 days", data: comparisonData(for: historical.lastMonth))
+                        }
+                    } else {
+                        Text("Building history...")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .padding(.top, 8)
                     }
-                    
-                    Text("vs Avg")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity)
                 .frame(height: 100)
@@ -95,7 +88,7 @@ struct TotalActivityView: View {
                 .overlay {
                     RoundedRectangle(cornerRadius: 16)
                         .stroke(
-                            Color(red: 130, green: 130, blue: 130).opacity(0.2),
+                            Color(red: 130/255, green: 130/255, blue: 130/255).opacity(0.1),
                             lineWidth: 1
                         )
                 }
@@ -108,6 +101,13 @@ struct TotalActivityView: View {
                 ForEach(activityReport.apps.prefix(10)) { app in
                     VStack(spacing: 0) {
                         HStack(alignment: .center, spacing: 12) {
+                            // App Icon
+                            if let token = app.token {
+                                Label(token)
+                                    .labelStyle(.iconOnly)
+                                    .font(.largeTitle)
+                            }
+
                             // App Info
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(app.displayName)
@@ -161,7 +161,7 @@ struct TotalActivityView: View {
             .overlay {
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(
-                        Color(red: 130, green: 130, blue: 130).opacity(0.2),
+                        Color(red: 130/255, green: 130/255, blue: 130/255).opacity(0.1),
                         lineWidth: 1
                     )
             }
@@ -192,7 +192,7 @@ struct TotalActivityView: View {
     private func formatDuration(_ duration: TimeInterval) -> String {
         let hours = Int(duration) / 3600
         let minutes = (Int(duration) % 3600) / 60
-        
+
         if hours > 0 {
             return "\(hours)h \(minutes)m"
         } else {
@@ -201,12 +201,38 @@ struct TotalActivityView: View {
     }
 }
 
-#Preview {
-    TotalActivityView(activityReport: ActivityReport(
-        totalDuration: 5000,
-        apps: [
-            AppActivity(displayName: "TikTok", bundleIdentifier: "com.test", duration: 3600, category: "Social"),
-            AppActivity(displayName: "Instagram", bundleIdentifier: "com.test2", duration: 1400, category: "Social")
-        ]
-    ))
+// MARK: - Progress Indicator Component
+struct ProgressIndicator: View {
+    let label: String
+    let data: (percentage: Double, icon: String, color: Color, text: String)
+
+    var body: some View {
+        HStack(spacing: 6) {
+            // Circle indicator
+            Circle()
+                .fill(data.color)
+                .frame(width: 8, height: 8)
+
+            Text(label)
+                .font(.caption2)
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            // Percentage badge
+            HStack(spacing: 3) {
+                Image(systemName: data.icon)
+                    .font(.system(size: 9, weight: .bold))
+                    .foregroundColor(data.color)
+
+                Text(data.text)
+                    .font(.caption2)
+                    .fontWeight(.bold)
+                    .foregroundColor(data.color)
+            }
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(data.color.opacity(0.15))
+            .cornerRadius(6)
+        }
+    }
 }

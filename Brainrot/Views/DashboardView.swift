@@ -7,6 +7,7 @@
 
 import SwiftUI
 import DeviceActivity
+import ManagedSettings
 
 // #if targetEnvironment(simulator)
 // Import for mock data - only needed on simulator
@@ -14,6 +15,13 @@ import DeviceActivity
 struct ActivityReport {
     let totalDuration: TimeInterval
     let apps: [AppActivity]
+    let historicalAverages: HistoricalAverages?
+}
+
+struct HistoricalAverages: Codable {
+    let yesterday: TimeInterval
+    let lastWeek: TimeInterval
+    let lastMonth: TimeInterval
 }
 
 struct AppActivity: Identifiable {
@@ -22,6 +30,7 @@ struct AppActivity: Identifiable {
     let bundleIdentifier: String
     let duration: TimeInterval
     let category: String
+    let token: ApplicationToken?
 }
 // #endif
 
@@ -336,8 +345,16 @@ struct ScreenTimeSection: View {
     @StateObject private var screenTimeManager = ScreenTimeManager.shared
 
     private var filter: DeviceActivityFilter {
-        DeviceActivityFilter(
-            segment: .daily(during: Calendar.current.dateInterval(of: .day, for: Date())!),
+        let calendar = Calendar.current
+        let now = Date()
+
+        // Get last 30 days interval
+        let startOfToday = calendar.startOfDay(for: now)
+        let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: startOfToday)!
+        let monthInterval = DateInterval(start: thirtyDaysAgo, end: now)
+
+        return DeviceActivityFilter(
+            segment: .daily(during: monthInterval),
             users: .all,
             devices: .init([.iPhone, .iPad])
         )
@@ -364,22 +381,27 @@ struct ScreenTimeSection: View {
     private static let mockData = ActivityReport(
         totalDuration: 18720, // 5h 12m
         apps: [
-            AppActivity(displayName: "TikTok", bundleIdentifier: "com.zhiliaoapp.musically", duration: 7200, category: "Social Networking"),
-            AppActivity(displayName: "Instagram", bundleIdentifier: "com.burbn.instagram", duration: 5400, category: "Social Networking"),
-            AppActivity(displayName: "YouTube", bundleIdentifier: "com.google.ios.youtube", duration: 3600, category: "Entertainment"),
-            AppActivity(displayName: "Safari", bundleIdentifier: "com.apple.mobilesafari", duration: 1800, category: "Productivity"),
-            AppActivity(displayName: "WhatsApp", bundleIdentifier: "net.whatsapp.WhatsApp", duration: 720, category: "Communication"),
-            AppActivity(displayName: "Twitter", bundleIdentifier: "com.atebits.Tweetie2", duration: 600, category: "Social Networking"),
-            AppActivity(displayName: "Reddit", bundleIdentifier: "com.reddit.Reddit", duration: 540, category: "Social Networking"),
-            AppActivity(displayName: "Spotify", bundleIdentifier: "com.spotify.client", duration: 480, category: "Entertainment"),
-            AppActivity(displayName: "Netflix", bundleIdentifier: "com.netflix.Netflix", duration: 420, category: "Entertainment"),
-            AppActivity(displayName: "Gmail", bundleIdentifier: "com.google.Gmail", duration: 360, category: "Productivity"),
-            AppActivity(displayName: "Facebook", bundleIdentifier: "com.facebook.Facebook", duration: 300, category: "Social Networking"),
-            AppActivity(displayName: "Snapchat", bundleIdentifier: "com.toyopagroup.picaboo", duration: 240, category: "Social Networking"),
-            AppActivity(displayName: "Telegram", bundleIdentifier: "ph.telegra.Telegraph", duration: 180, category: "Communication"),
-            AppActivity(displayName: "Chrome", bundleIdentifier: "com.google.chrome.ios", duration: 120, category: "Productivity"),
-            AppActivity(displayName: "Maps", bundleIdentifier: "com.apple.Maps", duration: 90, category: "Navigation")
-        ]
+            AppActivity(displayName: "TikTok", bundleIdentifier: "com.zhiliaoapp.musically", duration: 7200, category: "Social Networking", token: nil),
+            AppActivity(displayName: "Instagram", bundleIdentifier: "com.burbn.instagram", duration: 5400, category: "Social Networking", token: nil),
+            AppActivity(displayName: "YouTube", bundleIdentifier: "com.google.ios.youtube", duration: 3600, category: "Entertainment", token: nil),
+            AppActivity(displayName: "Safari", bundleIdentifier: "com.apple.mobilesafari", duration: 1800, category: "Productivity", token: nil),
+            AppActivity(displayName: "WhatsApp", bundleIdentifier: "net.whatsapp.WhatsApp", duration: 720, category: "Communication", token: nil),
+            AppActivity(displayName: "Twitter", bundleIdentifier: "com.atebits.Tweetie2", duration: 600, category: "Social Networking", token: nil),
+            AppActivity(displayName: "Reddit", bundleIdentifier: "com.reddit.Reddit", duration: 540, category: "Social Networking", token: nil),
+            AppActivity(displayName: "Spotify", bundleIdentifier: "com.spotify.client", duration: 480, category: "Entertainment", token: nil),
+            AppActivity(displayName: "Netflix", bundleIdentifier: "com.netflix.Netflix", duration: 420, category: "Entertainment", token: nil),
+            AppActivity(displayName: "Gmail", bundleIdentifier: "com.google.Gmail", duration: 360, category: "Productivity", token: nil),
+            AppActivity(displayName: "Facebook", bundleIdentifier: "com.facebook.Facebook", duration: 300, category: "Social Networking", token: nil),
+            AppActivity(displayName: "Snapchat", bundleIdentifier: "com.toyopagroup.picaboo", duration: 240, category: "Social Networking", token: nil),
+            AppActivity(displayName: "Telegram", bundleIdentifier: "ph.telegra.Telegraph", duration: 180, category: "Communication", token: nil),
+            AppActivity(displayName: "Chrome", bundleIdentifier: "com.google.chrome.ios", duration: 120, category: "Productivity", token: nil),
+            AppActivity(displayName: "Maps", bundleIdentifier: "com.apple.Maps", duration: 90, category: "Navigation", token: nil)
+        ],
+        historicalAverages: HistoricalAverages(
+            yesterday: 21600, // 6h yesterday
+            lastWeek: 19800,  // 5.5h average last week
+            lastMonth: 22500  // 6.25h average last month
+        )
     )
 #endif
 }
@@ -391,28 +413,18 @@ struct ScreenTimeSection: View {
 struct SharedScreenTimeView: View {
     let activityReport: ActivityReport
 
-    // Mock improvement data (will be replaced with real logic later)
-    private var averageScreenTime: TimeInterval {
-        // Mock: average is 6 hours
-        return 21600
-    }
-    
-    private var improvementPercentage: Double {
-        let diff = averageScreenTime - activityReport.totalDuration
-        return (diff / averageScreenTime) * 100
-    }
-    
-    private var improvementText: String {
-        let percentage = abs(improvementPercentage)
-        return String(format: "%.0f%%", percentage)
-    }
-    
-    private var improvementIcon: String {
-        improvementPercentage > 0 ? "arrow.down.circle.fill" : "arrow.up.circle.fill"
-    }
-    
-    private var improvementColor: Color {
-        improvementPercentage > 0 ? .green : .red
+    private func comparisonData(for period: TimeInterval) -> (percentage: Double, icon: String, color: Color, text: String) {
+        guard period > 0 else {
+            return (0, "minus.circle.fill", .gray, "N/A")
+        }
+
+        let diff = period - activityReport.totalDuration
+        let percentage = (diff / period) * 100
+        let icon = percentage > 0 ? "arrow.down.circle.fill" : "arrow.up.circle.fill"
+        let color: Color = percentage > 0 ? .green : .red
+        let text = String(format: "%.0f%%", abs(percentage))
+
+        return (percentage, icon, color, text)
     }
     
     var body: some View {
@@ -420,41 +432,44 @@ struct SharedScreenTimeView: View {
             // Two Column Stats Card
             HStack(spacing: 12) {
                 // Today's Total Column
-                VStack(spacing: 4) {
+                VStack(alignment: .leading, spacing: 4) {
                     Text("Today's Total")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
-                    
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Spacer()
+
                     Text(formatDuration(activityReport.totalDuration))
                         .font(.system(size: 36, weight: .bold, design: .rounded))
                         .foregroundColor(.primary)
-                    
+
                     Text("Very Bad")
                         .font(.caption2)
                         .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(16)
-                
-                // Improvement Column
-                VStack(spacing: 4) {
-                    Text("Improvement")
+
+                // Progress Column
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Your Progress")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
-                    
-                    HStack(spacing: 4) {
-                        Image(systemName: improvementIcon)
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(improvementColor)
-                        
-                        Text(improvementText)
-                            .font(.system(size: 36, weight: .bold, design: .rounded))
-                            .foregroundColor(improvementColor)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    if let historical = activityReport.historicalAverages {
+                        VStack(spacing: 6) {
+                            ProgressIndicator(label: "Yesterday", data: comparisonData(for: historical.yesterday))
+                            ProgressIndicator(label: "Last 7 days", data: comparisonData(for: historical.lastWeek))
+                            ProgressIndicator(label: "Last 30 days", data: comparisonData(for: historical.lastMonth))
+                        }
+                    } else {
+                        Text("Building history...")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .padding(.top, 8)
                     }
-                    
-                    Text("vs Avg")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(16)
@@ -465,6 +480,13 @@ struct SharedScreenTimeView: View {
                 ForEach(activityReport.apps.prefix(10)) { app in
                     VStack(spacing: 0) {
                         HStack(spacing: 12) {
+                            // App Icon
+                            if let token = app.token {
+                                Label(token)
+                                    .labelStyle(.iconOnly)
+                                    .font(.largeTitle)
+                            }
+
                             // App Info
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(app.displayName)
@@ -539,11 +561,47 @@ struct SharedScreenTimeView: View {
     private func formatDuration(_ duration: TimeInterval) -> String {
         let hours = Int(duration) / 3600
         let minutes = (Int(duration) % 3600) / 60
-        
+
         if hours > 0 {
             return "\(hours)h \(minutes)m"
         } else {
             return "\(minutes)m"
+        }
+    }
+}
+
+// MARK: - Progress Indicator Component
+struct ProgressIndicator: View {
+    let label: String
+    let data: (percentage: Double, icon: String, color: Color, text: String)
+
+    var body: some View {
+        HStack(spacing: 6) {
+            // Circle indicator
+            Circle()
+                .fill(data.color)
+                .frame(width: 8, height: 8)
+
+            Text(label)
+                .font(.caption2)
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            // Percentage badge
+            HStack(spacing: 3) {
+                Image(systemName: data.icon)
+                    .font(.system(size: 9, weight: .bold))
+                    .foregroundColor(data.color)
+
+                Text(data.text)
+                    .font(.caption2)
+                    .fontWeight(.bold)
+                    .foregroundColor(data.color)
+            }
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(data.color.opacity(0.15))
+            .cornerRadius(6)
         }
     }
 }
