@@ -128,6 +128,10 @@ struct OnboardingView: View {
 
     @State private var showSubscriptionView = false
     @State private var animationWorkItems: [DispatchWorkItem] = []
+
+    // Analytics tracking
+    @State private var onboardingStartTime: Date?
+    @State private var stepStartTime: Date?
     
     var body: some View {
         NavigationView {
@@ -187,6 +191,43 @@ struct OnboardingView: View {
         }
         .task {
             await screenTimeManager.checkAuthorization()
+        }
+        .onAppear {
+            // Track onboarding start
+            onboardingStartTime = Date()
+            stepStartTime = Date()
+            AnalyticsManager.shared.trackOnboardingStepViewed(analyticsStep(for: currentStep))
+        }
+        .onChange(of: currentStep) { oldStep, newStep in
+            // Track step completion and new step view
+            if let stepStart = stepStartTime {
+                let timeSpent = Date().timeIntervalSince(stepStart)
+                AnalyticsManager.shared.trackOnboardingStepCompleted(
+                    analyticsStep(for: oldStep),
+                    timeSpent: timeSpent
+                )
+            }
+
+            stepStartTime = Date()
+            AnalyticsManager.shared.trackOnboardingStepViewed(analyticsStep(for: newStep))
+        }
+        .onChange(of: screenTimeManager.isAuthorized) { wasAuthorized, isAuthorized in
+            // Track screen time permission changes
+            if isAuthorized && !wasAuthorized {
+                AnalyticsManager.shared.trackScreenTimePermissionGranted()
+            }
+        }
+    }
+
+    // Helper to convert OnboardingStep to AnalyticsManager.OnboardingStep
+    private func analyticsStep(for step: OnboardingStep) -> AnalyticsManager.OnboardingStep {
+        switch step {
+        case .welcome, .intro, .howItWorks, .rating, .connectScreenTime:
+            return .welcome
+        case .allowScreenTime:
+            return .screenTimePermission
+        case .ups:
+            return .benefits
         }
     }
     
@@ -713,6 +754,11 @@ struct OnboardingView: View {
 
                 Button {
                     cancelAnimations()
+                    AnalyticsManager.shared.trackOnboardingStepViewed(.subscription)
+                    AnalyticsManager.shared.trackButtonClicked(
+                        buttonName: "continue_to_subscription",
+                        screen: "onboarding_benefits"
+                    )
                     showSubscriptionView.toggle()
                 } label: {
                     Text("Continue")

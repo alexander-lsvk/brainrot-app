@@ -116,6 +116,10 @@ struct SubscriptionView: View {
                     // Annual button
                     Button {
                         selectedPlan = .annual
+                        AnalyticsManager.shared.trackSubscriptionPlanSelected(
+                            Products.annual.rawValue,
+                            price: annualLocalizedPrice()
+                        )
                     } label: {
                         ZStack {
                             HStack {
@@ -166,6 +170,10 @@ struct SubscriptionView: View {
                     // Monthly button
                     Button {
                         selectedPlan = .monthly
+                        AnalyticsManager.shared.trackSubscriptionPlanSelected(
+                            Products.monthly.rawValue,
+                            price: monthlyLocalizedPrice()
+                        )
                     } label: {
                         ZStack {
                             HStack {
@@ -207,6 +215,10 @@ struct SubscriptionView: View {
                     // Weekly button
                     Button {
                         selectedPlan = .weekly
+                        AnalyticsManager.shared.trackSubscriptionPlanSelected(
+                            Products.weekly.rawValue,
+                            price: weeklyLocalizedPrice()
+                        )
                     } label: {
                         ZStack {
                             HStack {
@@ -271,29 +283,27 @@ struct SubscriptionView: View {
                     .disabled(isLoading)
                     
                     HStack(spacing: 32) {
-                        Button {
-                            
-                        } label: {
+                        Link(destination: URL(string: "https://telegra.ph/Privacy-Polic-11-23")!, label: {
                             Text("Privacy")
                                 .foregroundStyle(.textSecondary)
                                 .font(.system(size: 14, weight: .regular, design: .rounded))
-                        }
+                        })
                         
                         Button {
-                            
+                            Task {
+                                await restorePurchases()
+                            }
                         } label: {
                             Text("Restore Purchase")
                                 .foregroundStyle(.textSecondary)
                                 .font(.system(size: 14, weight: .regular, design: .rounded))
                         }
                         
-                        Button {
-                            
-                        } label: {
+                        Link(destination: URL(string: "https://telegra.ph/Terms--Conditions-11-23-3")!, label: {
                             Text("Terms")
                                 .foregroundStyle(.textSecondary)
                                 .font(.system(size: 14, weight: .regular, design: .rounded))
-                        }
+                        })
                     }
                     .padding(.top, 16)
                 }
@@ -318,6 +328,9 @@ struct SubscriptionView: View {
                 Text(errorMessage ?? "An error occurred")
             }
             .toolbarBackground(.hidden, for: .navigationBar)
+            .onAppear {
+                AnalyticsManager.shared.trackSubscriptionViewPresented(source: "onboarding")
+            }
         }
     }
 
@@ -329,8 +342,14 @@ struct SubscriptionView: View {
             isLoading = false
             errorMessage = "Product not found"
             showError = true
+            AnalyticsManager.shared.trackError(
+                error: NSError(domain: "SubscriptionView", code: 404, userInfo: [NSLocalizedDescriptionKey: "Product not found"]),
+                screen: "subscription"
+            )
             return
         }
+
+        AnalyticsManager.shared.trackSubscriptionPurchaseStarted(selectedPlan.rawValue)
 
         do {
             let result = try await Purchases.shared.purchase(product: product)
@@ -338,19 +357,52 @@ struct SubscriptionView: View {
 
             if result.userCancelled {
                 ProductsService.shared.subscribed = false
+                AnalyticsManager.shared.trackCustomEvent("subscription_purchase_cancelled", parameters: [
+                    "plan_id": selectedPlan.rawValue
+                ])
                 return
             }
 
             ProductsService.shared.subscribed = true
+
+            // Track successful purchase
+            AnalyticsManager.shared.trackSubscriptionPurchaseCompleted(
+                selectedPlan.rawValue,
+                price: Double(truncating: product.price as NSNumber),
+                currency: product.currencyCode ?? "USD"
+            )
+
+            onDismiss()
             dismiss()
         } catch {
             isLoading = false
             ProductsService.shared.subscribed = false
             errorMessage = error.localizedDescription
             showError = true
+            AnalyticsManager.shared.trackSubscriptionPurchaseFailed(
+                selectedPlan.rawValue,
+                error: error.localizedDescription
+            )
         }
     }
-    
+
+    func restorePurchases() async {
+        isLoading = true
+
+        ProductsService.shared.restorePurchases { success in
+            isLoading = false
+            if success {
+                ProductsService.shared.subscribed = true
+                onDismiss()
+                dismiss()
+            } else {
+                errorMessage = "No active subscriptions found"
+                showError = true
+                ProductsService.shared.subscribed = false
+            }
+        }
+    }
+
     // Annual prices
     private func annualLocalizedPrice() -> String {
         let yearProduct = ProductsService.shared.products.first(where: { $0.productIdentifier == Products.annual.rawValue })

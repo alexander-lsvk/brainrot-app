@@ -37,7 +37,8 @@ struct AppActivity: Identifiable {
 struct DashboardView: View {
     @StateObject private var viewModel = DashboardViewModel()
     @StateObject private var screenTimeManager = ScreenTimeManager.shared
-    
+    @StateObject private var productsService = ProductsService.shared
+
     @State private var showSubscriptionView = false
     
     private var filter: DeviceActivityFilter {
@@ -109,11 +110,19 @@ struct DashboardView: View {
             }
             .scrollIndicators(.hidden)
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                AnalyticsManager.shared.trackDashboardViewed()
+            }
             .toolbar {
-                if ProductsService.shared.subscribed {
+                if productsService.subscribed {
                     ToolbarItem(placement: .principal) {
                         Button {
-                            
+                            AnalyticsManager.shared.trackButtonClicked(
+                                buttonName: "galaxy_brain_button",
+                                screen: "dashboard"
+                            )
+                            AnalyticsManager.shared.trackParticleEffectTriggered()
+
                         } label: {
                             HStack {
                                 Image("galaxy-brain-to")
@@ -138,6 +147,11 @@ struct DashboardView: View {
                 } else {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
+                            AnalyticsManager.shared.trackButtonClicked(
+                                buttonName: "heal_me_button",
+                                screen: "dashboard"
+                            )
+                            AnalyticsManager.shared.trackSubscriptionViewPresented(source: "dashboard_heal_me_button")
                             showSubscriptionView.toggle()
                         } label: {
                             Text("HEAL ME!")
@@ -198,6 +212,11 @@ struct VPNStatusCard: View {
                 .padding(.bottom, 16)
             
             Button {
+                AnalyticsManager.shared.trackButtonClicked(
+                    buttonName: isConnected ? "stop_vpn" : "start_vpn",
+                    screen: "dashboard"
+                )
+                AnalyticsManager.shared.trackVPNToggled(isEnabled: !isConnected)
                 onToggle()
             } label: {
                 Text(!isConnected ? "Start Brain Healing" : "Back To Rotting")
@@ -553,8 +572,28 @@ struct SharedScreenTimeView: View {
                 }
             }
         }
+        .onAppear {
+            // Track screen time data view
+            AnalyticsManager.shared.trackScreenTimeDataViewed(
+                totalDuration: activityReport.totalDuration,
+                appCount: activityReport.apps.count
+            )
+
+            // Track comparison data if available
+            if let historical = activityReport.historicalAverages {
+                let yesterdayData = comparisonData(for: historical.yesterday)
+                let weekData = comparisonData(for: historical.lastWeek)
+                let monthData = comparisonData(for: historical.lastMonth)
+
+                AnalyticsManager.shared.trackScreenTimeComparison(
+                    yesterdayChange: yesterdayData.percentage,
+                    weekChange: weekData.percentage,
+                    monthChange: monthData.percentage
+                )
+            }
+        }
     }
-    
+
     private func iconColor(for category: String) -> Color {
         switch category.lowercased() {
         case let cat where cat.contains("social"):
