@@ -6,21 +6,27 @@
 //
 
 import SwiftUI
+import FirebaseRemoteConfig
 import RevenueCat
 
 enum Products: String {
     case annual = "bh_1y"
     case monthly = "bh_1m"
     case weekly = "bh_1w"
+    case annualOffer = "bh_1y_offer"
 }
 
 struct SubscriptionView: View {
     @Environment(\.dismiss) var dismiss
 
+    @AppStorage("hasSeenOneTimeOffer") private var hasSeenOneTimeOffer = false
+
     @State var selectedPlan: Products = .annual
     @State private var isLoading = false
     @State private var errorMessage: String?
     @State private var showError = false
+
+    @State var presentOneTimeOffer = false
 
     var onDismiss: () -> Void
     
@@ -135,14 +141,16 @@ struct SubscriptionView: View {
                                 
                                 Spacer()
                                 
-                                HStack(alignment: .bottom, spacing: 0) {
-                                    Text("\(annualDailyLocalizedPrice())")
-                                        .foregroundStyle(.black)
-                                        .font(.system(size: 22, weight: .bold, design: .rounded))
-                                    
-                                    Text(" / day")
-                                        .foregroundStyle(.textSecondary)
-                                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                                if RemoteConfig.remoteConfig()["show_price_per_day"].boolValue {
+                                    HStack(alignment: .bottom, spacing: 0) {
+                                        Text("\(annualDailyLocalizedPrice())")
+                                            .foregroundStyle(.black)
+                                            .font(.system(size: 22, weight: .bold, design: .rounded))
+                                        
+                                        Text(" / day")
+                                            .foregroundStyle(.textSecondary)
+                                            .font(.system(size: 16, weight: .medium, design: .rounded))
+                                    }
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -189,14 +197,16 @@ struct SubscriptionView: View {
                                 
                                 Spacer()
                                 
-                                HStack(alignment: .bottom, spacing: 0) {
-                                    Text("\(monthlyDailyLocalizedPrice())")
-                                        .foregroundStyle(.black)
-                                        .font(.system(size: 22, weight: .bold, design: .rounded))
-                                    
-                                    Text(" / day")
-                                        .foregroundStyle(.textSecondary)
-                                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                                if RemoteConfig.remoteConfig()["show_price_per_day"].boolValue {
+                                    HStack(alignment: .bottom, spacing: 0) {
+                                        Text("\(monthlyDailyLocalizedPrice())")
+                                            .foregroundStyle(.black)
+                                            .font(.system(size: 22, weight: .bold, design: .rounded))
+                                        
+                                        Text(" / day")
+                                            .foregroundStyle(.textSecondary)
+                                            .font(.system(size: 16, weight: .medium, design: .rounded))
+                                    }
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -234,14 +244,16 @@ struct SubscriptionView: View {
                                 
                                 Spacer()
                                 
-                                HStack(alignment: .bottom, spacing: 0) {
-                                    Text("\(weeklyDailyLocalizedPrice())")
-                                        .foregroundStyle(.black)
-                                        .font(.system(size: 22, weight: .bold, design: .rounded))
-                                    
-                                    Text(" / day")
-                                        .foregroundStyle(.textSecondary)
-                                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                                if RemoteConfig.remoteConfig()["show_price_per_day"].boolValue {
+                                    HStack(alignment: .bottom, spacing: 0) {
+                                        Text("\(weeklyDailyLocalizedPrice())")
+                                            .foregroundStyle(.black)
+                                            .font(.system(size: 22, weight: .bold, design: .rounded))
+                                        
+                                        Text(" / day")
+                                            .foregroundStyle(.textSecondary)
+                                            .font(.system(size: 16, weight: .medium, design: .rounded))
+                                    }
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -313,8 +325,13 @@ struct SubscriptionView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
-                        onDismiss()
-                        dismiss()
+                        if hasSeenOneTimeOffer {
+                            onDismiss()
+                            dismiss()
+                        } else {
+                            hasSeenOneTimeOffer = true
+                            presentOneTimeOffer = true
+                        }
                     } label: {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 24, weight: .bold, design: .rounded))
@@ -330,6 +347,120 @@ struct SubscriptionView: View {
             .toolbarBackground(.hidden, for: .navigationBar)
             .onAppear {
                 AnalyticsManager.shared.trackSubscriptionViewPresented(source: "onboarding")
+            }
+            .onChange(of: presentOneTimeOffer) { oldValue, newValue in
+                if newValue == false {
+                    selectedPlan = .annual
+                }
+            }
+            .sheet(isPresented: $presentOneTimeOffer) {
+                ZStack {
+                    Color.white
+                        .ignoresSafeArea()
+                    
+                    VStack(spacing: 0) {
+                        Text("ONE-TIME OFFER")
+                            .foregroundStyle(.white)
+                            .font(.system(size: 32, weight: .bold, design: .rounded))
+                            .padding(.vertical, 4)
+                            .padding(.horizontal, 8)
+                            .background(.green)
+                            .padding(.top, 32)
+                        
+                        Text("You will never see this again")
+                            .foregroundStyle(.textPrimary)
+                            .font(.system(size: 20, weight: .regular, design: .rounded))
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 8)
+                        
+                        VStack(spacing: 0) {
+                            Image("icon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                                .cornerRadius(16)
+                            
+                            Text("Here's a **40% off** discount 🙌")
+                                .foregroundStyle(.textPrimary)
+                                .font(.system(size: 18, weight: .regular, design: .rounded))
+                                .multilineTextAlignment(.center)
+                                .padding(.top, 8)
+                            
+                            HStack {
+                                Text(annualLocalizedPrice())
+                                    .font(.system(size: 24, weight: .regular, design: .rounded))
+                                    .foregroundStyle(.textPrimary.opacity(0.5))
+                                    .strikethrough()
+                                
+                                Text("\(annualOfferMonthlyLocalizedPrice())/mo")
+                                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                                    .foregroundStyle(.textPrimary)
+                            }
+                            .padding(.vertical, 8)
+                            
+                            Text("How much is your 100 hours/month?")
+                                .foregroundStyle(.textPrimary)
+                                .font(.system(size: 18, weight: .regular, design: .rounded))
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding(16)
+                        .frame(maxWidth: .infinity)
+                        .background(.gray.opacity(0.15))
+                        .cornerRadius(36)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 36)
+                                .stroke(
+                                    .gray.opacity(0.4),
+                                    lineWidth: 1
+                                )
+                        }
+                        .padding(16)
+                        
+                        Spacer()
+                        
+                        Text("✅ No commitment, cancel anytime")
+                            .font(.system(size: 16, weight: .bold, design: .rounded))
+                            .foregroundStyle(.textPrimary)
+                            .padding(.bottom, 8)
+                        
+                        Button {
+                            selectedPlan = .annualOffer
+                            Task {
+                                await purchase()
+                            }
+                        } label: {
+                            if isLoading {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(1.2)
+                            } else {
+                                Text("Claim my limited time offer")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                            }
+                        }
+                        .buttonStyle(
+                            PressableButtonStyle(
+                                foregroundColor: .green,
+                                backgroundColor: .green.opacity(0.7),
+                                cornerRadius: 16
+                            )
+                        )
+                        .frame(height: 60)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .disabled(isLoading)
+                        
+                        Text("Build yearly at \(annualOfferLocalizedPrice()) per year")
+                            .foregroundStyle(.textPrimary)
+                            .font(.system(size: 16, weight: .regular, design: .rounded))
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 4)
+                    }
+                    
+                }
+                .presentationDetents([.height(500)])
+                .presentationDragIndicator(.visible)
             }
         }
     }
@@ -412,6 +543,17 @@ struct SubscriptionView: View {
     private func annualDailyLocalizedPrice() -> String {
         let yearProduct = ProductsService.shared.products.first(where: { $0.productIdentifier == Products.annual.rawValue })
         return yearProduct?.localizedPricePerDay ?? "N/A"
+    }
+    
+    // Annual offer prices
+    private func annualOfferLocalizedPrice() -> String {
+        let yearOfferProduct = ProductsService.shared.products.first(where: { $0.productIdentifier == Products.annualOffer.rawValue })
+        return yearOfferProduct?.localizedPriceString ?? "N/A"
+    }
+        
+    private func annualOfferMonthlyLocalizedPrice() -> String {
+        let yearOfferProduct = ProductsService.shared.products.first(where: { $0.productIdentifier == Products.annualOffer.rawValue })
+        return yearOfferProduct?.localizedPricePerMonth ?? "N/A"
     }
     
     // Monthly prices

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import StoreKit
+import AVKit
 
 struct ReviewCard: View {
     let imageName: String
@@ -92,10 +93,62 @@ struct ChatBubble: View {
     }
 }
 
+struct LoopingVideoPlayer: UIViewRepresentable {
+    let videoName: String
+
+    func makeUIView(context: Context) -> UIView {
+        let view = LoopingPlayerUIView(videoName: videoName)
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {}
+}
+
+class LoopingPlayerUIView: UIView {
+    private var playerLayer: AVPlayerLayer?
+    private var playerLooper: AVPlayerLooper?
+    private var queuePlayer: AVQueuePlayer?
+
+    init(videoName: String) {
+        super.init(frame: .zero)
+        setupPlayer(videoName: videoName)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupPlayer(videoName: String) {
+        guard let url = Bundle.main.url(forResource: videoName, withExtension: "mp4") else {
+            return
+        }
+
+        let asset = AVAsset(url: url)
+        let item = AVPlayerItem(asset: asset)
+
+        queuePlayer = AVQueuePlayer(playerItem: item)
+        queuePlayer?.isMuted = true
+
+        playerLooper = AVPlayerLooper(player: queuePlayer!, templateItem: item)
+
+        playerLayer = AVPlayerLayer(player: queuePlayer)
+        playerLayer?.videoGravity = .resizeAspectFill
+        layer.addSublayer(playerLayer!)
+
+        queuePlayer?.play()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        playerLayer?.frame = bounds
+    }
+}
+
 enum OnboardingStep: CaseIterable {
     case welcome
     case intro
     case howItWorks
+    case video
     case rating
     case connectScreenTime
     case allowScreenTime
@@ -144,6 +197,8 @@ struct OnboardingView: View {
                         intro()
                     case .howItWorks:
                         howItWorks()
+                    case .video:
+                        video()
                     case .rating:
                         rating()
                     case .connectScreenTime:
@@ -228,7 +283,56 @@ struct OnboardingView: View {
             return .screenTimePermission
         case .ups:
             return .benefits
+        case .video:
+            return .video
         }
+    }
+    
+    private func video() -> some View {
+        ZStack {
+            VStack {
+                Text("This Is How You'll Quit")
+                    .foregroundStyle(.black)
+                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 8)
+
+                Text("You'll **naturally** lose **interest**")
+                    .foregroundStyle(.black)
+                    .font(.system(size: 18, weight: .semibold, design: .rounded))
+                    .multilineTextAlignment(.center)
+
+                ZStack {
+                    LoopingVideoPlayer(videoName: "video-onboarding")
+                        .aspectRatio(9/19.5, contentMode: .fit)
+                        .cornerRadius(30)
+                        .padding(12)
+
+                    Image("frame")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
+                .frame(maxHeight: .infinity)
+                .padding(.vertical, 64)
+
+                Button {
+                    currentStep = .rating
+                } label: {
+                    Text("Continue")
+                        .foregroundStyle(.white)
+                        .font(.system(size: 20, weight: .semibold, design: .rounded))
+                }
+                .buttonStyle(
+                    PressableButtonStyle(
+                        foregroundColor: .green,
+                        backgroundColor: .green.opacity(0.7),
+                        cornerRadius: 16
+                    )
+                )
+                .frame(height: 60)
+            }
+        }
+        .padding(16)
     }
     
     private func welcome() -> some View {
@@ -402,7 +506,7 @@ struct OnboardingView: View {
 
                 Button {
                     cancelAnimations()
-                    currentStep = .rating
+                    currentStep = .video
                 } label: {
                     Text("Quit Scrolling")
                         .foregroundStyle(.white)
@@ -451,7 +555,7 @@ struct OnboardingView: View {
     private func rating() -> some View {
         ZStack {
             VStack(spacing: 0) {
-                Text("Give Us a Rating")
+                Text("Help Us Grow")
                     .foregroundStyle(.black)
                     .font(.system(size: 32, weight: .bold, design: .rounded))
                     .multilineTextAlignment(.center)

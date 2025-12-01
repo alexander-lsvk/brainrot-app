@@ -18,15 +18,18 @@
   ],
   "settings" : {
     "_applicationInternalID" : "6755611209",
+    "_askToBuyEnabled" : false,
+    "_billingGracePeriodEnabled" : false,
     "_billingIssuesEnabled" : false,
     "_developerTeamID" : "RQ4NX29V75",
+    "_disableDialogs" : false,
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 785476774.15411198,
+    "_lastSynchronizedDate" : 785984495.08028805,
     "_locale" : "en_US",
+    "_renewalBillingIssuesEnabled" : false,
     "_storefront" : "USA",
     "_storeKitErrors" : [
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Load Products"
       },
@@ -39,41 +42,35 @@
         "name" : "Purchase"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Verification"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "App Store Sync"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Subscription Status"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "App Transaction"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Manage Subscriptions Sheet"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Refund Request Sheet"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Offer Code Redeem Sheet"
       }
-    ]
+    ],
+    "_timeRate" : 0
   },
   "subscriptionGroups" : [
     {
@@ -105,6 +102,34 @@
           "productID" : "bh_1y",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Annual",
+          "subscriptionGroupID" : "21839129",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "17.99",
+          "familyShareable" : false,
+          "groupNumber" : 4,
+          "internalID" : "6755840638",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Enjoy unlimited access for 1 year.",
+              "displayName" : "Brainheal: Unlimited Access",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "bh_1y_offer",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Annual Offer",
           "subscriptionGroupID" : "21839129",
           "type" : "RecurringSubscription",
           "winbackOffers" : [

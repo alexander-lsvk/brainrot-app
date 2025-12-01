@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseRemoteConfig
 import RevenueCat
 
 @main
@@ -51,7 +52,15 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 
         // Track app launch
         AnalyticsManager.shared.trackAppLaunched()
-
+        
+        // Remote config
+        let remoteConfig = RemoteConfig.remoteConfig()
+        let settings = RemoteConfigSettings()
+        settings.minimumFetchInterval = 5
+        remoteConfig.configSettings = settings
+        
+        fetchRemoteConfig()
+        
         return true
     }
 
@@ -66,6 +75,26 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         if let startTime = sessionStartTime {
             let duration = Date().timeIntervalSince(startTime)
             AnalyticsManager.shared.trackSessionEnd(duration: duration)
+        }
+    }
+    
+    func fetchRemoteConfig() {
+        let remoteConfig = RemoteConfig.remoteConfig()
+        
+        remoteConfig.fetch { (status, error) -> Void in
+            if status == .success {
+                print("Config fetched!")
+                remoteConfig.activate(completion: { error, _  in
+                    if error == nil {
+                        print("Config activated!")
+                    }
+                })
+            } else {
+                print("Config not fetched")
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                }
+            }
         }
     }
 }

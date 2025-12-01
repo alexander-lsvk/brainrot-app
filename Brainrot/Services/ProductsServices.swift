@@ -17,7 +17,7 @@ final class ProductsService: ObservableObject {
     @Published var subscribed = true
     
     func setProducts() {
-        Purchases.shared.getProducts(["bh_1y", "bh_1w", "bh_1m"]) { [weak self] products in
+        Purchases.shared.getProducts(["bh_1y", "bh_1w", "bh_1m", "bh_1y_offer"]) { [weak self] products in
             self?.products.removeAll()
             self?.products = products
             print("[Purchases] Products: \(products)")

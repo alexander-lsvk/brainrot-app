@@ -802,7 +802,7 @@
 		C52A4E9F2EC9E18100C5430A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = BrainhealIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Brainrot/Brainrot.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -837,7 +837,7 @@
 		C52A4EA02EC9E18100C5430A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = BrainhealIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Brainrot/Brainrot.entitlements;
 				CODE_SIGN_STYLE = Automatic;

@@ -31,6 +31,7 @@ final class AnalyticsManager {
         case screenTimePermission = "screen_time_permission"
         case benefits = "benefits"
         case subscription = "subscription"
+        case video = "video"
     }
 
     func trackOnboardingStepViewed(_ step: OnboardingStep) {
